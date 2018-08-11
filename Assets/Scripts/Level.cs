@@ -7,6 +7,7 @@ public class Level : ScriptableObject {
 
     public Note.American keyboardMin, keyboardMax;
     public int bpm = 60;
+    public int blockCount = 8;
 
     [System.Serializable]
     public class HandPlay {
@@ -14,18 +15,18 @@ public class Level : ScriptableObject {
         [System.Serializable]
         public class PlayedNote {
             public Note.American note;
-            public int beatStart;
-            public int beatLength = 1;
+            [UnityEngine.Serialization.FormerlySerializedAs("beatStart")]
+            public int blockStart;
+            [UnityEngine.Serialization.FormerlySerializedAs("beatLength")]
+            public int blockLength = 1;
             public int beatEnd {
                 get {
-                    return beatStart + beatLength;
+                    return blockStart + blockLength;
                 }
             }
         }
 
         public PlayedNote[] notes;
-
-        public int beatCount = 0;
 
         Note.American lowest, highest;
 
@@ -67,4 +68,10 @@ public class Level : ScriptableObject {
             handPlays[i].Init();
         }
     }
+
+    public int Range()
+    {
+        return keyboardMax - keyboardMin;
+    }
+
 }

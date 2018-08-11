@@ -22,6 +22,10 @@ public class Logic : MonoBehaviour {
     KeyboardKey[] keys;
     Hand[] hands;
 
+    float time = 0;
+    float beatLength = 0;
+    int beatIt = 0;
+
     void Start()
     {
         keyboardTransform = new GameObject("Keyboard").transform;
@@ -67,11 +71,30 @@ public class Logic : MonoBehaviour {
             hands[i].ownHandplay = l.handPlays[i];
             hands[i].Init(this, i);
         }
+
+        FindAllCombinations();
+        //
+        StartPlaying();
+    }
+
+    void StartPlaying() {
+        beatIt = 0;
+        time = 0;
+        beatLength = 60f / (float)currentLevel.bpm;
+        SignalBeatStart(0);
     }
 
     void Update()
     {
+        time += Time.deltaTime;
 
+        if (time >= beatLength) {
+            time -= beatLength;
+
+            SignalBeatEnd(beatIt);
+            beatIt++;
+            SignalBeatStart(beatIt);
+        }
     }
 
     public KeyboardKey GetKey(Note n) {
@@ -79,6 +102,91 @@ public class Logic : MonoBehaviour {
     }
 
     public void HandsTouched(int handLeft, int handRight) {
+        Debug.Log("Touch! " + handLeft + " " + handRight);
+    }
 
+    void SignalBeatStart(int it)
+    {
+        for (int i = 0; i < hands.Length; ++i)
+        {
+            hands[i].BeatStarted(it);
+        }
+    }
+
+    void SignalBeatEnd(int it)
+    {
+        for (int i = 0; i < hands.Length; ++i)
+        {
+            hands[i].BeatEnd(it);
+        }
+    }
+
+    //
+
+    List<List<int>> combinations;
+
+    void FindAllCombinations()
+    {
+        int maxCombinations = currentLevel.Range() - currentLevel.handPlays[0].Range() + 1;
+        for (int i = 1; i < currentLevel.handPlays.Length; ++i) {
+            int c = currentLevel.Range() - currentLevel.handPlays[i].Range() + 1;
+            maxCombinations *= c;
+        }
+
+        Debug.Log("MAX: "+maxCombinations);
+
+        combinations = new List<List<int>>(maxCombinations);
+        List<int> combinationAux = new List<int>(currentLevel.handPlays.Length);
+        FindCombinationsRecursive(ref combinations, ref combinationAux);
+
+        Debug.Log("Total combinations found: " + combinations.Count);
+    }
+
+    void FindCombinationsRecursive(ref List<List<int>> combinations, ref List<int> currentCombination) {
+        if (currentCombination.Count == currentCombination.Capacity)
+        {
+            if (CheckCombination(ref currentCombination))
+            {
+                combinations.Add(new List<int>(currentCombination));
+            }
+        }
+        else {
+            int combIt = currentCombination.Count;
+            int maxOffset = currentLevel.Range() - currentLevel.handPlays[combIt].Range() + 1;
+            currentCombination.Add(0);
+            for (int i = 0; i < maxOffset; ++i) {
+                currentCombination[combIt] = i;
+                FindCombinationsRecursive(ref combinations, ref currentCombination);
+            }
+            currentCombination.RemoveAt(combIt);
+        }
+    }
+
+    bool CheckCombination(ref List<int> comb) {
+        for (int i = 0; i < currentLevel.handPlays.Length; ++i) {
+            if (currentLevel.handPlays[i].HighestNote() + comb[i] > currentLevel.keyboardMax) {
+                comb[i] = currentLevel.keyboardMax - (currentLevel.handPlays[i].HighestNote() + comb[i]);
+            }
+        }
+
+        bool[,] used = new bool[currentLevel.Range(), currentLevel.blockCount];
+        int min = currentLevel.keyboardMin;
+        for (int i = 0; i < currentLevel.handPlays.Length; ++i) {
+            for (int j = 0; j < currentLevel.handPlays[i].notes.Length; ++j) {
+                int note = currentLevel.handPlays[i].notes[j].note - min + comb[i];
+                int pos = currentLevel.handPlays[i].notes[j].blockStart;
+                for (int k = 0; k < currentLevel.handPlays[i].notes[j].blockLength; ++k) {
+                    if (used[note, pos + k]) {
+                        return false;
+                    }
+                    else
+                    {
+                        used[note, pos + k] = true;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 }
