@@ -86,16 +86,23 @@ public class Logic : MonoBehaviour {
         SignalBeatStart(0);
     }
 
+    bool beatEnded = false;
     void Update()
     {
         time += Time.deltaTime;
 
+        if (!beatEnded && time >= beatLength - 0f)
+        {
+            SignalBeatEnd(beatIt);
+            beatEnded = true;
+        }
         if (time >= beatLength) {
             time -= beatLength;
 
-            SignalBeatEnd(beatIt);
+            //SignalBeatEnd(beatIt);
             beatIt++;
             SignalBeatStart(beatIt);
+            beatEnded = false;
         }
 
         if (Input.GetKeyDown(KeyCode.UpArrow)) {

@@ -17,7 +17,7 @@ public class Hand : MonoBehaviour {
 
     [HideInInspector]
     public int noteOffset = 0;
-    KeyboardKey keyPressing;
+    KeyboardKey keyPressing = null;
 
     int middleNote = 0;
 
@@ -27,6 +27,7 @@ public class Hand : MonoBehaviour {
         }
     }
     Vector3 wantedPos = Vector3.zero;
+    public bool isPlaying = true;
 
     public void Init(Logic l, int id) {
         logic = l;
@@ -61,6 +62,7 @@ public class Hand : MonoBehaviour {
     }
 
     void PressKey(KeyboardKey k) {
+        if (!isPlaying) return;
         k.Pressed(ownId);
         wantedPos = k.transform.position;
         wantedPos.y += k.isBlack ? KeyboardKey.keyHeight / 2f : KeyboardKey.keyHeight / 4f;
@@ -71,12 +73,14 @@ public class Hand : MonoBehaviour {
     }
 
     void ReleaseKey(KeyboardKey k) {
+        if (k == null) return;
         k.Released(ownId);
         ownRenderer.sprite = relaxedSprite;
         wantedPos = restPos;
+        k = null;
     }
 
     void Update() {
-        transform.position = Vector3.Lerp(transform.position, wantedPos, 5f * Time.deltaTime);
+        transform.position = wantedPos;// Vector3.Lerp(transform.position, wantedPos, 5f * Time.deltaTime);
     }
 }
