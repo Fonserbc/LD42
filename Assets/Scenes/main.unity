@@ -182,6 +182,11 @@ Prefab:
       propertyPath: minCamSize
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 82935091690890724, guid: 459175b1918552e4c9e2e4fe97893a94,
+        type: 2}
+      propertyPath: spreadCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 459175b1918552e4c9e2e4fe97893a94, type: 2}
   m_IsPrefabParent: 0

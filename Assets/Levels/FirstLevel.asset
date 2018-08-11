@@ -18,105 +18,113 @@ MonoBehaviour:
     octave: 5
     key: 0
   bpm: 70
+  blockCount: 8
   handPlays:
   - notes:
     - note:
-        octave: 4
-        key: 5
-      beatStart: 0
-      beatLength: 1
-    - note:
-        octave: 4
+        octave: 5
         key: 0
-      beatStart: 1
-      beatLength: 1
-    - note:
-        octave: 4
-        key: 7
-      beatStart: 2
-      beatLength: 1
-    - note:
-        octave: 4
-        key: 6
-      beatStart: 3
-      beatLength: 1
-    - note:
-        octave: 4
-        key: 7
-      beatStart: 4
-      beatLength: 1
-    - note:
-        octave: 4
-        key: 3
-      beatStart: 5
-      beatLength: 1
-    - note:
-        octave: 4
-        key: 4
-      beatStart: 6
-      beatLength: 1
-    - note:
-        octave: 4
-        key: 0
-      beatStart: 7
-      beatLength: 1
-    beatCount: 8
-  - notes:
-    - note:
-        octave: 4
-        key: 2
-      beatStart: 0
-      beatLength: 4
-    - note:
-        octave: 4
-        key: 5
-      beatStart: 4
-      beatLength: 2
-    - note:
-        octave: 4
-        key: 2
-      beatStart: 6
-      beatLength: 1
+      blockStart: 0
+      blockLength: 1
     - note:
         octave: 4
         key: 9
-      beatStart: 7
-      beatLength: 1
-    beatCount: 8
-  - notes:
-    - note:
-        octave: 4
-        key: 9
-      beatStart: 0
-      beatLength: 1
-    - note:
-        octave: 4
-        key: 5
-      beatStart: 1
-      beatLength: 1
+      blockStart: 1
+      blockLength: 1
     - note:
         octave: 5
         key: 0
-      beatStart: 2
-      beatLength: 1
+      blockStart: 2
+      blockLength: 1
     - note:
         octave: 4
         key: 9
-      beatStart: 3
-      beatLength: 1
+      blockStart: 3
+      blockLength: 1
     - note:
-        octave: 4
-        key: 11
-      beatStart: 4
-      beatLength: 2
-    - note:
-        octave: 4
-        key: 9
-      beatStart: 6
-      beatLength: 1
+        octave: 5
+        key: 0
+      blockStart: 4
+      blockLength: 1
     - note:
         octave: 4
         key: 7
-      beatStart: 7
-      beatLength: 1
-    beatCount: 8
+      blockStart: 5
+      blockLength: 1
+    - note:
+        octave: 5
+        key: 0
+      blockStart: 6
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 7
+      blockStart: 7
+      blockLength: 1
+  - notes:
+    - note:
+        octave: 4
+        key: 0
+      blockStart: 0
+      blockLength: 2
+    - note:
+        octave: 4
+        key: 2
+      blockStart: 2
+      blockLength: 1
+    - note:
+        octave: 5
+        key: 0
+      blockStart: 3
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 9
+      blockStart: 4
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 5
+      blockStart: 5
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 7
+      blockStart: 6
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 0
+      blockStart: 7
+      blockLength: 1
+  - notes:
+    - note:
+        octave: 4
+        key: 9
+      blockStart: 0
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 5
+      blockStart: 1
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 7
+      blockStart: 2
+      blockLength: 2
+    - note:
+        octave: 4
+        key: 5
+      blockStart: 4
+      blockLength: 1
+    - note:
+        octave: 5
+        key: 0
+      blockStart: 5
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 5
+      blockStart: 6
+      blockLength: 2
