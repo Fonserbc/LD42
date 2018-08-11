@@ -193,21 +193,27 @@ public class KeyboardKey : MonoBehaviour {
             }
         }
 
-        Vector3 color = new Vector3(originalColor.r, originalColor.g, originalColor.b);
-        float count = 1;
-        for (int i = 0; i < handTimes.Length; ++i)
+        if (pressingHand >= 0)
         {
-            if (handTimes[i] > 0)
-            {
-                float f = handTimes[i] / handColorLinger;
-                color.x += f * logic.handsColor[i].r;
-                color.y += f * logic.handsColor[i].g;
-                color.z += f * logic.handsColor[i].b;
-                count += f;
-            }
+            ownRenderer.color = logic.handsColor[pressingHand];
         }
-        color /= (float)count;
+        else {
+            Vector3 color = new Vector3(originalColor.r, originalColor.g, originalColor.b);
+            float count = 1;
+            for (int i = 0; i < handTimes.Length; ++i)
+            {
+                if (handTimes[i] > 0)
+                {
+                    float f = handTimes[i] / handColorLinger;
+                    color.x += f * logic.handsColor[i].r;
+                    color.y += f * logic.handsColor[i].g;
+                    color.z += f * logic.handsColor[i].b;
+                    count += f;
+                }
+            }
+            color /= (float)count;
 
-        ownRenderer.color = new Color(color.x, color.y, color.z);
+            ownRenderer.color = new Color(color.x, color.y, color.z);
+        }
     }
 }
