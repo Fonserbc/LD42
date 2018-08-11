@@ -13,6 +13,8 @@ TextureImporter:
     21300016: ma_index_blanca
     21300018: ma_petit_blanca
     21300020: ma
+    21300022: pressing
+    21300024: relaxed
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -259,6 +261,34 @@ TextureImporter:
         height: 17
       alignment: 9
       pivot: {x: 0.49560407, y: 0.79970485}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pressing
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 88
+        width: 14
+        height: 13
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: relaxed
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 88
+        width: 14
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5, y: 1.8}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

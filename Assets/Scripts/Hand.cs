@@ -4,22 +4,8 @@ using UnityEngine;
 
 public class Hand : MonoBehaviour {
 
-    public enum Finger {
-        Thumb = 0,
-        Index = 1,
-        Middle = 2,
-        Ring = 3,
-        Little = 4
-    }
-    
-    [System.Serializable]
-    public class HandFingerSprite {
-        public Finger finger;
-        public Sprite pWhite, pBlack;
-    }
-
-    public HandFingerSprite[] fingerSprites;
-    public Sprite relaxedHand;
+    public Sprite pressingSprite;
+    public Sprite relaxedSprite;
     public SpriteRenderer ownRenderer;
 
     [HideInInspector]
@@ -31,6 +17,7 @@ public class Hand : MonoBehaviour {
 
     [HideInInspector]
     public int noteOffset = 0;
+    KeyboardKey keyPressing;
 
     public void Init(Logic l, int id) {
         logic = l;
@@ -45,7 +32,7 @@ public class Hand : MonoBehaviour {
         //Debug.Log("Start " + ownId + ": " + beatIt + "=> ownHandplay.notes[" + currentIt + "].beatStart = " + ownHandplay.notes[currentIt].beatStart);
 
         if (ownHandplay.notes[currentIt].blockStart == beatIt) {
-            PressKey(logic.GetKey(ownHandplay.notes[currentIt].note));
+            PressKey(logic.GetKey(ownHandplay.notes[currentIt].note + noteOffset));
         }
     }
 
@@ -56,7 +43,7 @@ public class Hand : MonoBehaviour {
 
         if (((ownHandplay.notes[currentIt].blockStart + ownHandplay.notes[currentIt].blockLength) % logic.currentLevel.blockCount) == beatIt)
         {
-            ReleaseKey(logic.GetKey(ownHandplay.notes[currentIt].note));
+            ReleaseKey(keyPressing);
             currentIt = (currentIt + 1) % ownHandplay.notes.Length;
         }
     }
@@ -67,12 +54,13 @@ public class Hand : MonoBehaviour {
         wantedPos.y += k.isBlack ? KeyboardKey.keyHeight / 2f : KeyboardKey.keyHeight / 4f;
         transform.position = wantedPos;
 
-        ownRenderer.sprite = fingerSprites[1].pWhite;
+        ownRenderer.sprite = pressingSprite;
+        keyPressing = k;
     }
 
     void ReleaseKey(KeyboardKey k) {
         k.Released(ownId);
-        ownRenderer.sprite = relaxedHand;
+        ownRenderer.sprite = relaxedSprite;
         transform.position = new Vector3(transform.position.x, 0, transform.position.z);
     }
 }

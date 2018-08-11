@@ -18,6 +18,16 @@ public class Utilities {
         }
     }
 
+    public static void DebugLogList<T>(List<T> array)
+    {
+        string s = "";
+        for (int i = 0; i < array.Count; ++i)
+        {
+            s += array[i].ToString() + " ";
+        }
+        Debug.Log(s);
+    }
+
     public static Vector3 NormalFromAngle(float a) {
         return new Vector3(-Mathf.Sin(a), Mathf.Cos(a), 0f);
     }

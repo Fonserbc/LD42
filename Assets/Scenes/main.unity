@@ -152,6 +152,36 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114676953021540854, guid: 459175b1918552e4c9e2e4fe97893a94,
+        type: 2}
+      propertyPath: handsColor.Array.data[0].a
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 114676953021540854, guid: 459175b1918552e4c9e2e4fe97893a94,
+        type: 2}
+      propertyPath: handsColor.Array.data[1].a
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 114676953021540854, guid: 459175b1918552e4c9e2e4fe97893a94,
+        type: 2}
+      propertyPath: handsColor.Array.data[2].a
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 114676953021540854, guid: 459175b1918552e4c9e2e4fe97893a94,
+        type: 2}
+      propertyPath: handsColor.Array.data[3].a
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 114676953021540854, guid: 459175b1918552e4c9e2e4fe97893a94,
+        type: 2}
+      propertyPath: handsColor.Array.data[4].a
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 114676953021540854, guid: 459175b1918552e4c9e2e4fe97893a94,
+        type: 2}
+      propertyPath: minCamSize
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 459175b1918552e4c9e2e4fe97893a94, type: 2}
   m_IsPrefabParent: 0
@@ -916,7 +946,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1436660160
 MonoBehaviour:
   m_ObjectHideFlags: 0

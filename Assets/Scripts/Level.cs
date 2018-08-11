@@ -57,7 +57,7 @@ public class Level : ScriptableObject {
 
         public int Range()
         {
-            return highest - lowest;
+            return highest - lowest + 1;
         }
     }
 
@@ -71,7 +71,7 @@ public class Level : ScriptableObject {
 
     public int Range()
     {
-        return keyboardMax - keyboardMin;
+        return keyboardMax - keyboardMin + 1;
     }
 
 }

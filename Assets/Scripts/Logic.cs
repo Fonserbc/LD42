@@ -77,10 +77,12 @@ public class Logic : MonoBehaviour {
         StartPlaying();
     }
 
+    int combIt = 0;
     void StartPlaying() {
         beatIt = 0;
         time = 0;
         beatLength = 60f / (float)currentLevel.bpm;
+        SetCombination(0);
         SignalBeatStart(0);
     }
 
@@ -94,6 +96,25 @@ public class Logic : MonoBehaviour {
             SignalBeatEnd(beatIt);
             beatIt++;
             SignalBeatStart(beatIt);
+        }
+
+        if (Input.GetKeyDown(KeyCode.UpArrow)) {
+            SetCombination((combIt + 1)%combinations.Count);
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            SetCombination((combIt + combinations.Count - 1) % combinations.Count);
+        }
+    }
+
+    void SetCombination(int it) {
+
+        combIt = it;
+        Debug.Log("CurrentCombination: "+combIt);
+        Utilities.DebugLogList(combinations[combIt]);
+
+        for (int i = 0; i < hands.Length; ++i) {
+            hands[i].noteOffset = combinations[combIt][i];
         }
     }
 
@@ -152,7 +173,7 @@ public class Logic : MonoBehaviour {
         }
         else {
             int combIt = currentCombination.Count;
-            int maxOffset = currentLevel.Range() - currentLevel.handPlays[combIt].Range() + 1;
+            int maxOffset = currentLevel.Range() - currentLevel.handPlays[combIt].Range();
             currentCombination.Add(0);
             for (int i = 0; i < maxOffset; ++i) {
                 currentCombination[combIt] = i;
@@ -175,7 +196,9 @@ public class Logic : MonoBehaviour {
             for (int j = 0; j < currentLevel.handPlays[i].notes.Length; ++j) {
                 int note = currentLevel.handPlays[i].notes[j].note - min + comb[i];
                 int pos = currentLevel.handPlays[i].notes[j].blockStart;
-                for (int k = 0; k < currentLevel.handPlays[i].notes[j].blockLength; ++k) {
+                for (int k = 0; k < currentLevel.handPlays[i].notes[j].blockLength; ++k)
+                {
+                    //Debug.Log(note + "/"+used.GetLength(0) + " "+(pos + k)+ "/"+used.GetLength(1));
                     if (used[note, pos + k]) {
                         return false;
                     }

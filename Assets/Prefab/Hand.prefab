@@ -52,20 +52,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1af9b8b0035fe404399118ad1a57793c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fingerSprites:
-  - finger: 0
-    pWhite: {fileID: 21300010, guid: d2256316bdfd83a4888859865312f764, type: 3}
-    pBlack: {fileID: 21300012, guid: d2256316bdfd83a4888859865312f764, type: 3}
-  - finger: 1
-    pWhite: {fileID: 21300014, guid: d2256316bdfd83a4888859865312f764, type: 3}
-    pBlack: {fileID: 0}
-  - finger: 4
-    pWhite: {fileID: 21300018, guid: d2256316bdfd83a4888859865312f764, type: 3}
-    pBlack: {fileID: 0}
+  pressingSprite: {fileID: 21300022, guid: d2256316bdfd83a4888859865312f764, type: 3}
+  relaxedSprite: {fileID: 21300024, guid: d2256316bdfd83a4888859865312f764, type: 3}
   ownRenderer: {fileID: 212937716577227686}
   ownHandplay:
     notes: []
-    beatCount: 0
+  noteOffset: 0
 --- !u!212 &212937716577227686
 SpriteRenderer:
   m_ObjectHideFlags: 1
