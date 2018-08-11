@@ -39,6 +39,31 @@ public struct Note  {
             a.key = (Key)(value - a.octave * 12);
             return a;
         }
+
+        public static American Highest {
+            get {
+                American h = new American();
+                h.octave = 10;
+                h.key = Key.Gb;
+                return h;
+            }
+        }
+
+        public static American Lowest
+        {
+            get
+            {
+                American l = new American();
+                l.octave = 0;
+                l.key = Key.A;
+                return l;
+            }
+        }
+
+        public override string ToString()
+        {
+            return octave.ToString() + " "+key.ToString();
+        }
     }
 
     [Range(0, 1024)]
