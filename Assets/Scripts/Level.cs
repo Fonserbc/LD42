@@ -11,9 +11,14 @@ public class Level : ScriptableObject {
 
     [System.Serializable]
     public class HandPlay {
-
+        public string name = "Hand";
         [System.Serializable]
         public class PlayedNote {
+            public string name {
+                get {
+                    return note.ToString();
+                }
+            }
             public Note.American note;
             [UnityEngine.Serialization.FormerlySerializedAs("beatStart")]
             public int blockStart;

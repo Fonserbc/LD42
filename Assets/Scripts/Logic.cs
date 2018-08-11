@@ -154,8 +154,6 @@ public class Logic : MonoBehaviour {
             maxCombinations *= c;
         }
 
-        Debug.Log("MAX: "+maxCombinations);
-
         combinations = new List<List<int>>(maxCombinations);
         List<int> combinationAux = new List<int>(currentLevel.handPlays.Length);
         FindCombinationsRecursive(ref combinations, ref combinationAux);
@@ -174,17 +172,19 @@ public class Logic : MonoBehaviour {
         else {
             int combIt = currentCombination.Count;
             int maxOffset = currentLevel.Range() - currentLevel.handPlays[combIt].Range();
-            currentCombination.Add(0);
-            for (int i = 0; i < maxOffset; ++i) {
-                currentCombination[combIt] = i;
+            for (int i = 0; i <= maxOffset; ++i)
+            {
+                currentCombination.Add(i);
                 FindCombinationsRecursive(ref combinations, ref currentCombination);
+                currentCombination.RemoveAt(combIt);
             }
-            currentCombination.RemoveAt(combIt);
         }
     }
 
     bool CheckCombination(ref List<int> comb) {
+        bool firstComb = true;
         for (int i = 0; i < currentLevel.handPlays.Length; ++i) {
+            if (firstComb) firstComb &= comb[i] == 0;
             if (currentLevel.handPlays[i].HighestNote() + comb[i] > currentLevel.keyboardMax) {
                 comb[i] = currentLevel.keyboardMax - (currentLevel.handPlays[i].HighestNote() + comb[i]);
             }
@@ -200,6 +200,9 @@ public class Logic : MonoBehaviour {
                 {
                     //Debug.Log(note + "/"+used.GetLength(0) + " "+(pos + k)+ "/"+used.GetLength(1));
                     if (used[note, pos + k]) {
+                        if (firstComb) {
+                            Debug.Log("Block: " + (pos + k) + " Note: " + ((Note.American)(min+pos)).ToString());
+                        }
                         return false;
                     }
                     else

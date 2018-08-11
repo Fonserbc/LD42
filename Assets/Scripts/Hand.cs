@@ -19,11 +19,23 @@ public class Hand : MonoBehaviour {
     public int noteOffset = 0;
     KeyboardKey keyPressing;
 
+    int middleNote = 0;
+
+    Vector3 restPos {
+        get {
+            return logic.GetKey(middleNote + noteOffset).transform.position;
+        }
+    }
+    Vector3 wantedPos = Vector3.zero;
+
     public void Init(Logic l, int id) {
         logic = l;
         ownId = id;
         ownRenderer.color = l.handsColor[id];
         currentIt = 0;
+
+        middleNote = ownHandplay.LowestNote() + ownHandplay.Range() / 2;
+        wantedPos = restPos;
     }
 
     public void BeatStarted(int beat) {
@@ -50,7 +62,7 @@ public class Hand : MonoBehaviour {
 
     void PressKey(KeyboardKey k) {
         k.Pressed(ownId);
-        Vector3 wantedPos = k.transform.position;
+        wantedPos = k.transform.position;
         wantedPos.y += k.isBlack ? KeyboardKey.keyHeight / 2f : KeyboardKey.keyHeight / 4f;
         transform.position = wantedPos;
 
@@ -61,6 +73,10 @@ public class Hand : MonoBehaviour {
     void ReleaseKey(KeyboardKey k) {
         k.Released(ownId);
         ownRenderer.sprite = relaxedSprite;
-        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        wantedPos = restPos;
+    }
+
+    void Update() {
+        transform.position = Vector3.Lerp(transform.position, wantedPos, 5f * Time.deltaTime);
     }
 }

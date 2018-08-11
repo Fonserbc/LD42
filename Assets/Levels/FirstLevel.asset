@@ -20,7 +20,8 @@ MonoBehaviour:
   bpm: 70
   blockCount: 8
   handPlays:
-  - notes:
+  - name: Hand 0
+    notes:
     - note:
         octave: 5
         key: 0
@@ -61,7 +62,8 @@ MonoBehaviour:
         key: 7
       blockStart: 7
       blockLength: 1
-  - notes:
+  - name: Hand 1
+    notes:
     - note:
         octave: 4
         key: 0
@@ -97,7 +99,8 @@ MonoBehaviour:
         key: 0
       blockStart: 7
       blockLength: 1
-  - notes:
+  - name: Hand 2
+    notes:
     - note:
         octave: 4
         key: 9

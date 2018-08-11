@@ -27,6 +27,7 @@ public class KeyboardKey : MonoBehaviour {
     const float handColorLinger = 1f;
     float[] handTimes;
     int pressingHand = -1;
+    Color originalColor;
     
 	public void Init (Logic l) {
         logic = l;
@@ -136,6 +137,7 @@ public class KeyboardKey : MonoBehaviour {
         {
             ownRenderer.color = Color.black;
         }
+        originalColor = ownRenderer.color;
 
         transform.localPosition = new Vector3(pos, 0, 0);
 
@@ -182,5 +184,30 @@ public class KeyboardKey : MonoBehaviour {
         Vector3 center = transform.position;
         center.y += size.y / 2f;
         Gizmos.DrawWireCube(center, size);
+    }
+
+    void Update() {
+        for (int i = 0; i < handTimes.Length; ++i) {
+            if (i != pressingHand && handTimes[i] > 0) {
+                handTimes[i] = Mathf.Max(0, handTimes[i] - Time.deltaTime);
+            }
+        }
+
+        Vector3 color = new Vector3(originalColor.r, originalColor.g, originalColor.b);
+        float count = 1;
+        for (int i = 0; i < handTimes.Length; ++i)
+        {
+            if (handTimes[i] > 0)
+            {
+                float f = handTimes[i] / handColorLinger;
+                color.x += f * logic.handsColor[i].r;
+                color.y += f * logic.handsColor[i].g;
+                color.z += f * logic.handsColor[i].b;
+                count += f;
+            }
+        }
+        color /= (float)count;
+
+        ownRenderer.color = new Color(color.x, color.y, color.z);
     }
 }
