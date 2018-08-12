@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4227f4af5f283bc4fb6b7544ae1126a6, type: 3}
-  m_Name: FirstLevel
+  m_Name: 2 hand level
   m_EditorClassIdentifier: 
   keyboardMin:
     octave: 4
@@ -17,34 +17,29 @@ MonoBehaviour:
   keyboardMax:
     octave: 5
     key: 0
-  bpm: 70
+  bpm: 100
   blockCount: 8
   handPlays:
-  - name: Hand 0
+  - name: hand 1
     notes:
     - note:
         octave: 5
         key: 0
       blockStart: 0
-      blockLength: 1
+      blockLength: 2
     - note:
         octave: 4
-        key: 9
-      blockStart: 1
-      blockLength: 1
-    - note:
-        octave: 5
-        key: 0
+        key: 11
       blockStart: 2
       blockLength: 1
     - note:
         octave: 4
-        key: 9
+        key: 7
       blockStart: 3
       blockLength: 1
     - note:
-        octave: 5
-        key: 0
+        octave: 4
+        key: 9
       blockStart: 4
       blockLength: 1
     - note:
@@ -53,8 +48,40 @@ MonoBehaviour:
       blockStart: 5
       blockLength: 1
     - note:
-        octave: 5
+        octave: 4
+        key: 9
+      blockStart: 6
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 11
+      blockStart: 7
+      blockLength: 1
+  - name: hand 2
+    notes:
+    - note:
+        octave: 4
+        key: 7
+      blockStart: 0
+      blockLength: 1
+    - note:
+        octave: 4
         key: 0
+      blockStart: 1
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 4
+      blockStart: 2
+      blockLength: 2
+    - note:
+        octave: 4
+        key: 5
+      blockStart: 4
+      blockLength: 2
+    - note:
+        octave: 4
+        key: 6
       blockStart: 6
       blockLength: 1
     - note:
@@ -62,67 +89,3 @@ MonoBehaviour:
         key: 7
       blockStart: 7
       blockLength: 1
-  - name: Hand 1
-    notes:
-    - note:
-        octave: 4
-        key: 0
-      blockStart: 0
-      blockLength: 2
-    - note:
-        octave: 4
-        key: 2
-      blockStart: 2
-      blockLength: 1
-    - note:
-        octave: 5
-        key: 0
-      blockStart: 3
-      blockLength: 1
-    - note:
-        octave: 4
-        key: 9
-      blockStart: 4
-      blockLength: 1
-    - note:
-        octave: 4
-        key: 5
-      blockStart: 5
-      blockLength: 1
-    - note:
-        octave: 4
-        key: 9
-      blockStart: 6
-      blockLength: 2
-  - name: Hand 2
-    notes:
-    - note:
-        octave: 4
-        key: 9
-      blockStart: 0
-      blockLength: 1
-    - note:
-        octave: 4
-        key: 5
-      blockStart: 1
-      blockLength: 1
-    - note:
-        octave: 4
-        key: 7
-      blockStart: 2
-      blockLength: 2
-    - note:
-        octave: 4
-        key: 5
-      blockStart: 4
-      blockLength: 1
-    - note:
-        octave: 5
-        key: 0
-      blockStart: 5
-      blockLength: 1
-    - note:
-        octave: 4
-        key: 5
-      blockStart: 6
-      blockLength: 2
