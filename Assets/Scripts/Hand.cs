@@ -16,8 +16,7 @@ public class Hand : MonoBehaviour
     int ownId;
     int currentIt;
 
-    [HideInInspector]
-    public int noteOffset = 0;
+    int noteOffset = 0;
     KeyboardKey keyPressing = null;
 
     int middleNote = 0;
@@ -53,7 +52,7 @@ public class Hand : MonoBehaviour
         noteOffset = Random.Range(minOffset, maxOffset + 1);
         UpdateOffsetArrows();
 
-        Debug.Log(minOffset + "->" + maxOffset + ": " + noteOffset);
+        Debug.Log(ownHandplay.name + " has " + (maxOffset - minOffset + 1) + " positions");
         isPlaying = false;
         toggleButton.SetToggleState(false);
     }
@@ -113,17 +112,20 @@ public class Hand : MonoBehaviour
 
     public void RightArrowPressed() {
         if (noteOffset < maxOffset) {
-            noteOffset++;
-            UpdateOffsetArrows();
+            SetOffset(noteOffset + 1);
         }
     }
 
     public void LeftArrowPressed() {
         if (noteOffset > minOffset)
         {
-            noteOffset--;
-            UpdateOffsetArrows();
+            SetOffset(noteOffset - 1);
         }
+    }
+
+    public void SetOffset(int off) {
+        noteOffset = Mathf.Clamp(off, minOffset, maxOffset);
+        UpdateOffsetArrows();
     }
 
     void UpdateOffsetArrows() {

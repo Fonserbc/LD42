@@ -137,7 +137,7 @@ public class Logic : MonoBehaviour {
         Utilities.DebugLogList(combinations[combIt]);
 
         for (int i = 0; i < hands.Length; ++i) {
-            hands[i].noteOffset = combinations[combIt][i];
+            hands[i].SetOffset(combinations[combIt][i]);
         }
     }
 
@@ -181,7 +181,7 @@ public class Logic : MonoBehaviour {
         List<int> combinationAux = new List<int>(currentLevel.handPlays.Length);
         FindCombinationsRecursive(ref combinations, ref combinationAux);
 
-        Debug.Log("Total combinations found: " + combinations.Count);
+        Debug.Log("Found " + combinations.Count+" possible combinations out of "+maxCombinations);
     }
 
     void FindCombinationsRecursive(ref List<List<int>> combinations, ref List<int> currentCombination) {
