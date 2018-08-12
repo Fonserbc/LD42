@@ -73,11 +73,13 @@ public class Logic : MonoBehaviour {
         hands = new Hand[l.handPlays.Length];
         float handSpace = width / (float)l.handPlays.Length;
         float left = cam.transform.position.x - width / 2f;
-        float bottom = cam.transform.position.y - height / 2f + height * 0.2f;
+        float bottom = cam.transform.position.y - height / 2f;
+        float scalefactor = height / (minCamSize * 2f);
         for (int i = 0; i < hands.Length; ++i) {
             hands[i] = Instantiate(handPrefab, handsTransform).GetComponent<Hand>();
             hands[i].ownHandplay = l.handPlays[i];
             hands[i].transform.position = new Vector3(left + i * handSpace + handSpace / 2f, bottom, 0);
+            hands[i].bodyTransform.localScale = hands[i].bodyTransform.localScale * scalefactor;
             hands[i].Init(this, i);
         }
 
@@ -93,6 +95,9 @@ public class Logic : MonoBehaviour {
         beatLength = 60f / (float)currentLevel.bpm;
         if (debugMode) {
             SetCombination(0);
+            foreach (Hand h in hands) {
+                h.isPlaying = true;
+            }
         }
 
         SignalBeatStart(0);
@@ -193,7 +198,36 @@ public class Logic : MonoBehaviour {
         List<int> combinationAux = new List<int>(currentLevel.handPlays.Length);
         FindCombinationsRecursive(ref combinations, ref combinationAux);
 
-        Debug.Log("Found " + combinations.Count+" possible combinations out of "+maxCombinations);
+        int repeated = 0;
+        int it = 1;
+        while (it < combinations.Count) {
+            bool unique = true;
+            for (int i = 0; unique && i < it; ++i) {
+                if (CombinationsEqual(combinations[it], combinations[i])) {
+                    repeated++;
+                    unique = false;
+                }
+            }
+
+            if (!unique)
+            {
+                combinations.RemoveAt(it);
+            }
+            else {
+                it++;
+            }
+        }
+        Debug.Log("Found " + combinations.Count+" ("+repeated+" repeated) possible combinations out of "+maxCombinations);
+    }
+
+    bool CombinationsEqual(List<int> c1, List<int> c2) {
+        bool equal = true;
+
+        for (int i = 1; equal && i < c1.Count; ++i) {
+            equal = (c1[i] - c1[i - 1]) == (c2[i] = c2[i - 1]);
+        }
+
+        return equal;
     }
 
     void FindCombinationsRecursive(ref List<List<int>> combinations, ref List<int> currentCombination) {

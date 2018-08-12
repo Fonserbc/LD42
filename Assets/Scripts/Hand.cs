@@ -6,8 +6,11 @@ public class Hand : MonoBehaviour
 {
     public SpriteRenderer[] ownRenderers;
     public Transform fingerTransform;
+    public Transform bodyTransform;
 
     public SpriteButton arrowButtonLeft, arrowButtonRight, toggleButton;
+
+    public SpriteRenderer optionsFrom, optionsTo;
 
     [HideInInspector]
     public Level.HandPlay ownHandplay;
@@ -31,6 +34,9 @@ public class Hand : MonoBehaviour
     Vector3 startPos;
 
     int minOffset, maxOffset;
+    Transform optionsParent;
+
+    SpriteRenderer[] options;
 
     public void Init(Logic l, int id) {
         logic = l;
@@ -47,12 +53,34 @@ public class Hand : MonoBehaviour
         minOffset = level.keyboardMin - ownHandplay.LowestNote();
         maxOffset = level.keyboardMax - ownHandplay.HighestNote();
 
-        noteOffset = Random.Range(minOffset, maxOffset + 1);
-        UpdateOffsetArrows();
-
         Debug.Log(ownHandplay.name + " has " + (maxOffset - minOffset + 1) + " positions");
         isPlaying = false;
         toggleButton.SetToggleState(false);
+
+        optionsParent = new GameObject("Options").transform;
+        optionsParent.SetParent(optionsFrom.transform.parent, false);
+        optionsParent.transform.localScale = Vector3.one;
+
+        int numOptions = maxOffset - minOffset + 1;
+
+        options = new SpriteRenderer[numOptions];
+        float deltaSpace = optionsTo.transform.localPosition.x - optionsFrom.transform.localPosition.x;
+        deltaSpace /= (float)numOptions;
+        float minScale = 0.200f;
+        for (int i = 0; i < numOptions; ++i) {
+            options[i] = Instantiate(optionsFrom, optionsParent).GetComponent<SpriteRenderer>();
+            options[i].transform.localPosition = new Vector3(optionsFrom.transform.localPosition.x + deltaSpace * i + deltaSpace * 0.5f, optionsFrom.transform.localPosition.y, optionsFrom.transform.localPosition.z);
+            //if (deltaSpace < minScale) {
+            options[i].transform.localScale = new Vector3(deltaSpace / minScale, 1f, 1f);
+            //}
+            options[i].gameObject.SetActive(true);
+        }
+
+        SetOffset(Random.Range(minOffset, maxOffset + 1));
+    }
+
+    public void Clean() {
+        Destroy(optionsParent.gameObject);
     }
 
     public void BeatStarted(int beat) {
@@ -158,11 +186,15 @@ public class Hand : MonoBehaviour
 
     public void SetOffset(int off) {
         noteOffset = Mathf.Clamp(off, minOffset, maxOffset);
-        UpdateOffsetArrows();
+        UpdateOffsetUI();
     }
 
-    void UpdateOffsetArrows() {
+    void UpdateOffsetUI() {
         arrowButtonRight.enabled = noteOffset < maxOffset;
         arrowButtonLeft.enabled = noteOffset > minOffset;
+
+        for (int i = 0; i < options.Length; ++i) {
+            options[i].color = Color.Lerp(((noteOffset - minOffset) == i) ? Color.white : Color.black, logic.handsColor[ownId], 0.5f);
+        }
     }
 }

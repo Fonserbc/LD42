@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Name: Creepy
   m_EditorClassIdentifier: 
   keyboardMin:
-    octave: 4
+    octave: 2
     key: 0
   keyboardMax:
-    octave: 5
+    octave: 6
     key: 0
   bpm: 100
   blockCount: 12
