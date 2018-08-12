@@ -24,7 +24,7 @@ public class Level : ScriptableObject {
             public int blockStart;
             [UnityEngine.Serialization.FormerlySerializedAs("beatLength")]
             public int blockLength = 1;
-            public int beatEnd {
+            public int blockEnd {
                 get {
                     return blockStart + blockLength;
                 }

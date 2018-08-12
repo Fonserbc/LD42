@@ -26,7 +26,6 @@ public class Hand : MonoBehaviour
             return startPos;
         }
     }
-    Vector3 wantedPos = Vector3.zero;
     public bool isPlaying = true;
 
     Vector3 startPos;
@@ -40,7 +39,6 @@ public class Hand : MonoBehaviour
         currentIt = 0;
 
         middleNote = ownHandplay.LowestNote() + ownHandplay.Range() / 2;
-        wantedPos = restPos;
         startPos = transform.position;
 
         //
@@ -82,8 +80,6 @@ public class Hand : MonoBehaviour
     void PressKey(KeyboardKey k) {
         if (!isPlaying) return;
         k.Pressed(ownId);
-        wantedPos = k.transform.position;
-        wantedPos.y += k.isBlack ? KeyboardKey.keyHeight / 2f : KeyboardKey.keyHeight / 4f;
         
         keyPressing = k;
     }
@@ -91,12 +87,49 @@ public class Hand : MonoBehaviour
     void ReleaseKey(KeyboardKey k) {
         if (k == null) return;
         k.Released(ownId);
-        wantedPos = restPos;
         keyPressing = null;
     }
 
-    void Update() {
-        fingerTransform.position = wantedPos;// Vector3.Lerp(transform.position, wantedPos, 5f * Time.deltaTime);
+    void Update()
+    {
+        if (isPlaying)
+        {
+            float currentBeatFloat = logic.CurrentBeatFloat();
+
+            int currentBlock = Mathf.FloorToInt(currentBeatFloat) % logic.currentLevel.blockCount;
+            int nextBlock = currentBlock + 1;
+            float f = currentBeatFloat - Mathf.Floor(currentBeatFloat);
+
+            Vector3 currentBeatPos = restPos;
+
+            if (ownHandplay.notes[currentIt].blockStart <= currentBlock)
+            {
+                currentBeatPos = logic.GetKeyPosition(ownHandplay.notes[currentIt].note + noteOffset);
+            }
+            Vector3 nextBeatPos = currentBeatPos;
+            if (ownHandplay.notes[currentIt].blockEnd <= nextBlock)
+            {
+                int nextIt = (currentIt + 1) % ownHandplay.notes.Length;
+                nextBlock = nextBlock % logic.currentLevel.blockCount;
+                if (ownHandplay.notes[nextIt].blockStart >= nextBlock)
+                {
+                    nextBeatPos = logic.GetKeyPosition(ownHandplay.notes[nextIt].note + noteOffset);
+                }
+                else {
+                    nextBeatPos = restPos;
+                }
+            }
+
+            float minFactor = 0.7f;
+            if (f > minFactor)
+            {
+                fingerTransform.position = Vector3.Lerp(currentBeatPos, nextBeatPos, (f - minFactor) / (1f - minFactor));
+            }
+            else fingerTransform.position = currentBeatPos;
+        }
+        else {
+            fingerTransform.position = Vector3.Lerp(fingerTransform.position, restPos, Time.deltaTime * 3f);
+        }
     }
 
     void SetColor(Color c) {

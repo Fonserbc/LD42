@@ -166,13 +166,15 @@ MonoBehaviour:
     octave: 0
     key: 0
   ownRenderer: {fileID: 212984591953523922}
-  wLeft: {fileID: 21300002, guid: d2256316bdfd83a4888859865312f764, type: 3}
-  wRight: {fileID: 21300004, guid: d2256316bdfd83a4888859865312f764, type: 3}
-  wMiddle: {fileID: 21300006, guid: d2256316bdfd83a4888859865312f764, type: 3}
-  wFull: {fileID: 21300008, guid: d2256316bdfd83a4888859865312f764, type: 3}
-  black: {fileID: 21300000, guid: d2256316bdfd83a4888859865312f764, type: 3}
+  wLeft: {fileID: 21300006, guid: 6a10ba4997178cd44851534d1fd12e9d, type: 3}
+  wRight: {fileID: 21300002, guid: 6a10ba4997178cd44851534d1fd12e9d, type: 3}
+  wMiddle: {fileID: 21300004, guid: 6a10ba4997178cd44851534d1fd12e9d, type: 3}
+  wFull: {fileID: 21300008, guid: 6a10ba4997178cd44851534d1fd12e9d, type: 3}
+  black: {fileID: 21300000, guid: 6a10ba4997178cd44851534d1fd12e9d, type: 3}
   audioSample: {fileID: 11400000, guid: acb4dc25ec85ca24091356b11d171b63, type: 2}
   source: {fileID: 82842249058792854}
+  blackColor: {r: 0, g: 0, b: 0, a: 1}
+  whiteColor: {r: 1, g: 1, b: 1, a: 1}
   isBlack: 0
 --- !u!212 &212984591953523922
 SpriteRenderer:
@@ -208,7 +210,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300002, guid: d2256316bdfd83a4888859865312f764, type: 3}
+  m_Sprite: {fileID: 21300008, guid: 6a10ba4997178cd44851534d1fd12e9d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

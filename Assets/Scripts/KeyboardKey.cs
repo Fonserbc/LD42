@@ -8,9 +8,12 @@ public class KeyboardKey : MonoBehaviour {
     public SpriteRenderer ownRenderer;
     public Sprite wLeft, wRight, wMiddle, wFull, black;
     public const float keyDistance = 0.6f;
-    public const float keyHeight = 4f;
+    public const float keyHeight = 5f;
     public AudioSample audioSample;
     public AudioSource source;
+
+    public Color blackColor = Color.black;
+    public Color whiteColor = Color.white;
 
     public bool isBlack = false;
     [System.NonSerialized]
@@ -135,7 +138,11 @@ public class KeyboardKey : MonoBehaviour {
 
         if (isBlack)
         {
-            ownRenderer.color = Color.black;
+            ownRenderer.color = blackColor;
+        }
+        else
+        {
+            ownRenderer.color = whiteColor;
         }
         originalColor = ownRenderer.color;
 

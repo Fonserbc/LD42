@@ -71,7 +71,7 @@ public class Logic : MonoBehaviour {
         cam.orthographicSize = height / 2f;
 
         hands = new Hand[l.handPlays.Length];
-        float handSpace = width / 3f;
+        float handSpace = width / (float)l.handPlays.Length;
         float left = cam.transform.position.x - width / 2f;
         float bottom = cam.transform.position.y - height / 2f + height * 0.2f;
         for (int i = 0; i < hands.Length; ++i) {
@@ -130,6 +130,10 @@ public class Logic : MonoBehaviour {
         }
     }
 
+    public float CurrentBeatFloat() {
+        return (float)beatIt + time / beatLength;
+    }
+
     void SetCombination(int it) {
 
         combIt = it;
@@ -143,6 +147,14 @@ public class Logic : MonoBehaviour {
 
     public KeyboardKey GetKey(Note n) {
         return keys[n - keys[0].note];
+    }
+
+    public Vector3 GetKeyPosition(Note n) {
+        KeyboardKey k = keys[n - keys[0].note];
+        Vector3 pos = k.transform.position;
+        pos.y += k.isBlack ? KeyboardKey.keyHeight / 2f : KeyboardKey.keyHeight / 4f;
+
+        return pos;
     }
 
     public void HandsTouched(int handLeft, int handRight) {
