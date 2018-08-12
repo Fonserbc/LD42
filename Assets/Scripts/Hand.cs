@@ -33,8 +33,8 @@ public class Hand : MonoBehaviour
 
     Vector3 restPos {
         get {
-            middleNote = ownHandplay.LowestNote() + ownHandplay.Range() / 2;
-            startPos = logic.GetKeyPosition(middleNote + noteOffset) - Vector3.one * KeyboardKey.keyHeight / 4f;
+            middleNote = (ownHandplay.LowestNote() + ownHandplay.HighestNote()) / 2;
+            startPos = logic.GetKeyPosition(middleNote + noteOffset, false) - Vector3.up * KeyboardKey.keyHeight / 4f + Vector3.down * (ownId / (float)logic.handsColor.Length);
             return startPos;
         }
     }
@@ -90,6 +90,7 @@ public class Hand : MonoBehaviour
         armsLength = Mathf.Max(MinArmLengthToReach(logic.GetKeyPosition(logic.keys[logic.keys.Length - 1].note)), MinArmLengthToReach(logic.GetKeyPosition(logic.keys[0].note)));
 
         SetOffset(Random.Range(minOffset, maxOffset + 1));
+        toggleButton.SetToggleState(true);
     }
 
     float MinArmLengthToReach(Vector3 pos) {
@@ -101,6 +102,11 @@ public class Hand : MonoBehaviour
 
     public void Clean() {
         Destroy(optionsParent.gameObject);
+    }
+
+    public void StopPlaying() {
+        isPlaying = false;
+        toggleButton.SetToggleState(false);
     }
 
     public void BeatStarted(int beat) {
