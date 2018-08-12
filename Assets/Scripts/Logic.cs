@@ -19,7 +19,8 @@ public class Logic : MonoBehaviour {
     Transform keyboardTransform;
     Transform handsTransform;
 
-    KeyboardKey[] keys;
+    [HideInInspector]
+    public KeyboardKey[] keys;
     Hand[] hands;
 
     float time = 0;

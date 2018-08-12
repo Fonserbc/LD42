@@ -7,10 +7,17 @@ public class Hand : MonoBehaviour
     public SpriteRenderer[] ownRenderers;
     public Transform fingerTransform;
     public Transform bodyTransform;
+    public Transform lineOrigin, knob;
+    public LineRenderer line0, line1;
+    public float minLine0Distance = 3f;
+    public Sprite pressingSprite, idleSprite;
 
     public SpriteButton arrowButtonLeft, arrowButtonRight, toggleButton;
 
     public SpriteRenderer optionsFrom, optionsTo;
+    public SpriteRenderer finger;
+
+    public float fingerHeight = 2f;
 
     [HideInInspector]
     public Level.HandPlay ownHandplay;
@@ -26,6 +33,8 @@ public class Hand : MonoBehaviour
 
     Vector3 restPos {
         get {
+            middleNote = ownHandplay.LowestNote() + noteOffset + ownHandplay.Range() / 2;
+            startPos = logic.GetKeyPosition(middleNote) - Vector3.one * KeyboardKey.keyHeight / 4f;
             return startPos;
         }
     }
@@ -38,14 +47,16 @@ public class Hand : MonoBehaviour
 
     SpriteRenderer[] options;
 
-    public void Init(Logic l, int id) {
+    float armsLength = 0;
+
+    public void Init(Logic l, int id)
+    {
         logic = l;
         ownId = id;
         SetColor(l.handsColor[id]);
         currentIt = 0;
-
-        middleNote = ownHandplay.LowestNote() + ownHandplay.Range() / 2;
-        startPos = transform.position;
+        
+        finger.sprite = idleSprite;
 
         //
 
@@ -76,7 +87,16 @@ public class Hand : MonoBehaviour
             options[i].gameObject.SetActive(true);
         }
 
+        armsLength = Mathf.Max(MinArmLengthToReach(logic.GetKeyPosition(logic.keys[logic.keys.Length - 1].note)), MinArmLengthToReach(logic.GetKeyPosition(logic.keys[0].note)));
+
         SetOffset(Random.Range(minOffset, maxOffset + 1));
+    }
+
+    float MinArmLengthToReach(Vector3 pos) {
+        float a = (pos + (Vector3.up * fingerHeight) - lineOrigin.position).magnitude;
+        a += 0.5f;
+        a /= 2f;
+        return a;
     }
 
     public void Clean() {
@@ -108,13 +128,14 @@ public class Hand : MonoBehaviour
     void PressKey(KeyboardKey k) {
         if (!isPlaying) return;
         k.Pressed(ownId);
-        
+        finger.sprite = pressingSprite;
         keyPressing = k;
     }
 
     void ReleaseKey(KeyboardKey k) {
         if (k == null) return;
         k.Released(ownId);
+        finger.sprite = idleSprite;
         keyPressing = null;
     }
 
@@ -127,12 +148,14 @@ public class Hand : MonoBehaviour
             int currentBlock = Mathf.FloorToInt(currentBeatFloat) % logic.currentLevel.blockCount;
             int nextBlock = currentBlock + 1;
             float f = currentBeatFloat - Mathf.Floor(currentBeatFloat);
+            float minFactor = 0.7f;
 
             Vector3 currentBeatPos = restPos;
 
             if (ownHandplay.notes[currentIt].blockStart <= currentBlock)
             {
                 currentBeatPos = logic.GetKeyPosition(ownHandplay.notes[currentIt].note + noteOffset);
+                currentBeatPos.y += fingerHeight;
             }
             Vector3 nextBeatPos = currentBeatPos;
             if (ownHandplay.notes[currentIt].blockEnd <= nextBlock)
@@ -146,9 +169,10 @@ public class Hand : MonoBehaviour
                 else {
                     nextBeatPos = restPos;
                 }
+                nextBeatPos.y += fingerHeight;
+                if (f > minFactor)
+                    finger.sprite = idleSprite;
             }
-
-            float minFactor = 0.7f;
             if (f > minFactor)
             {
                 fingerTransform.position = Vector3.Lerp(currentBeatPos, nextBeatPos, (f - minFactor) / (1f - minFactor));
@@ -158,6 +182,25 @@ public class Hand : MonoBehaviour
         else {
             fingerTransform.position = Vector3.Lerp(fingerTransform.position, restPos, Time.deltaTime * 3f);
         }
+
+        // Knob pos
+        Vector3 delta = fingerTransform.position - lineOrigin.position;
+        Vector3 perp = delta.normalized;
+        float aux = perp.x;
+        perp.x = perp.y;
+        perp.y = -aux;
+        if (perp.y > 0) {
+            perp = perp * -1f;
+        }
+
+        float h = Mathf.Sqrt(armsLength * armsLength - ((delta.magnitude / 2f) * (delta.magnitude / 2f)));
+
+        knob.position = Vector3.Lerp(lineOrigin.position, fingerTransform.position, 0.5f) + perp * h;
+
+        line0.SetPosition(0, lineOrigin.transform.position);
+        line0.SetPosition(1, knob.position);
+        line1.SetPosition(0, knob.position);
+        line1.SetPosition(1, fingerTransform.position + (knob.position - fingerTransform.position).normalized * 0.18f);
     }
 
     void SetColor(Color c) {
@@ -196,5 +239,11 @@ public class Hand : MonoBehaviour
         for (int i = 0; i < options.Length; ++i) {
             options[i].color = Color.Lerp(((noteOffset - minOffset) == i) ? Color.white : Color.black, logic.handsColor[ownId], 0.5f);
         }
+    }
+
+    void OnDrawGizmosSelected() {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(lineOrigin.position, minLine0Distance);
+        Gizmos.DrawLine(fingerTransform.position, fingerTransform.position - Vector3.up * fingerHeight);
     }
 }
