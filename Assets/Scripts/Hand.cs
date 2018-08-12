@@ -33,8 +33,8 @@ public class Hand : MonoBehaviour
 
     Vector3 restPos {
         get {
-            middleNote = ownHandplay.LowestNote() + noteOffset + ownHandplay.Range() / 2;
-            startPos = logic.GetKeyPosition(middleNote) - Vector3.one * KeyboardKey.keyHeight / 4f;
+            middleNote = ownHandplay.LowestNote() + ownHandplay.Range() / 2;
+            startPos = logic.GetKeyPosition(middleNote + noteOffset) - Vector3.one * KeyboardKey.keyHeight / 4f;
             return startPos;
         }
     }
@@ -151,27 +151,34 @@ public class Hand : MonoBehaviour
             float minFactor = 0.7f;
 
             Vector3 currentBeatPos = restPos;
+            bool active = false;
 
             if (ownHandplay.notes[currentIt].blockStart <= currentBlock)
             {
                 currentBeatPos = logic.GetKeyPosition(ownHandplay.notes[currentIt].note + noteOffset);
                 currentBeatPos.y += fingerHeight;
+                active = true;
             }
+
             Vector3 nextBeatPos = currentBeatPos;
             if (ownHandplay.notes[currentIt].blockEnd <= nextBlock)
             {
                 int nextIt = (currentIt + 1) % ownHandplay.notes.Length;
                 nextBlock = nextBlock % logic.currentLevel.blockCount;
-                if (ownHandplay.notes[nextIt].blockStart >= nextBlock)
+                if (ownHandplay.notes[nextIt].blockStart <= nextBlock)
                 {
                     nextBeatPos = logic.GetKeyPosition(ownHandplay.notes[nextIt].note + noteOffset);
+                    nextBeatPos.y += fingerHeight;
                 }
                 else {
                     nextBeatPos = restPos;
                 }
-                nextBeatPos.y += fingerHeight;
                 if (f > minFactor)
                     finger.sprite = idleSprite;
+            }
+            else if (!active && ownHandplay.notes[currentIt].blockStart <= nextBlock) {
+                nextBeatPos = logic.GetKeyPosition(ownHandplay.notes[currentIt].note + noteOffset);
+                nextBeatPos.y += fingerHeight;
             }
             if (f > minFactor)
             {
