@@ -76,10 +76,24 @@ public class Logic : MonoBehaviour {
         float left = cam.transform.position.x - width / 2f;
         float bottom = cam.transform.position.y - height / 2f;
         float scalefactor = height / (minCamSize * 2f);
+        int[] order = new int[hands.Length];
+        for (int i = 0; i < order.Length; ++i) {
+            order[i] = i;
+        }
+        for (int i = 0; i < order.Length; ++i) {
+            for (int j = 0; j < order.Length - i - 1; ++j) {
+                if (l.handPlays[order[j]].HighestNote() > l.handPlays[order[j + 1]].HighestNote()) {
+                    int aux = order[j];
+                    order[j] = order[j + 1];
+                    order[j + 1] = aux;
+                }
+            }
+        }
+
         for (int i = 0; i < hands.Length; ++i) {
             hands[i] = Instantiate(handPrefab, handsTransform).GetComponent<Hand>();
             hands[i].ownHandplay = l.handPlays[i];
-            hands[i].transform.position = new Vector3(left + i * handSpace + handSpace / 2f, bottom, 0);
+            hands[i].transform.position = new Vector3(left + order[i] * handSpace + handSpace / 2f, bottom, 0);
             hands[i].bodyTransform.localScale = hands[i].bodyTransform.localScale * scalefactor;
             hands[i].Init(this, i);
         }
@@ -97,7 +111,7 @@ public class Logic : MonoBehaviour {
         if (debugMode) {
             SetCombination(0);
             foreach (Hand h in hands) {
-                h.isPlaying = true;
+                h.TogglePressed();
             }
         }
 
@@ -155,15 +169,21 @@ public class Logic : MonoBehaviour {
         return keys[n - keys[0].note];
     }
 
-    public Vector3 GetKeyPosition(Note n) {
+    public Vector3 GetKeyPosition(Note n, bool checkBlack = true) {
         KeyboardKey k = keys[n - keys[0].note];
         Vector3 pos = k.transform.position;
-        pos.y += k.isBlack ? KeyboardKey.keyHeight / 2f : KeyboardKey.keyHeight / 4f;
-
+        float auxY = KeyboardKey.keyHeight / 4f;
+        if (checkBlack && k.isBlack)
+        {
+            auxY = KeyboardKey.keyHeight / 2f;
+        }
+        pos.y += auxY;
         return pos;
     }
 
     public void HandsTouched(int handLeft, int handRight) {
+        hands[handRight].StopPlaying();
+        hands[handLeft].StopPlaying();
         Debug.Log("Touch! " + handLeft + " " + handRight);
     }
 

@@ -165,6 +165,7 @@ public class KeyboardKey : MonoBehaviour {
         if (pressingHand >= 0)
         {
             logic.HandsTouched(pressingHand, handId);
+            Released(pressingHand);
         }
         else {
             pressingHand = handId;
@@ -180,7 +181,7 @@ public class KeyboardKey : MonoBehaviour {
             if (source.isPlaying) source.Stop();
         }
         else {
-            Debug.LogError(handId + " released an unreleased key "+name, this);
+            //Debug.LogError(handId + " released an unreleased key "+name, this);
         }
     }
 
