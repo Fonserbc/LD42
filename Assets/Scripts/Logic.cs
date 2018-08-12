@@ -26,6 +26,9 @@ public class Logic : MonoBehaviour {
     float beatLength = 0;
     int beatIt = 0;
 
+    [Header("Debug")]
+    public bool debugMode = false;
+
     void Start()
     {
         keyboardTransform = new GameObject("Keyboard").transform;
@@ -59,6 +62,8 @@ public class Logic : MonoBehaviour {
         width += KeyboardKey.keyDistance * 2f;
         float ratio = Screen.width / (float)Screen.height;
         float height = Mathf.Max(minCamSize * 2f, width / ratio);
+        float keyboardWidth = width;
+        width = height * ratio;
 
         float middle = (keys[0].transform.position.x + keys[keys.Length - 1].transform.position.x) / 2f;
 
@@ -66,9 +71,13 @@ public class Logic : MonoBehaviour {
         cam.orthographicSize = height / 2f;
 
         hands = new Hand[l.handPlays.Length];
+        float handSpace = width / 3f;
+        float left = cam.transform.position.x - width / 2f;
+        float bottom = cam.transform.position.y - height / 2f + height * 0.2f;
         for (int i = 0; i < hands.Length; ++i) {
             hands[i] = Instantiate(handPrefab, handsTransform).GetComponent<Hand>();
             hands[i].ownHandplay = l.handPlays[i];
+            hands[i].transform.position = new Vector3(left + i * handSpace + handSpace / 2f, bottom, 0);
             hands[i].Init(this, i);
         }
 
@@ -82,28 +91,42 @@ public class Logic : MonoBehaviour {
         beatIt = 0;
         time = 0;
         beatLength = 60f / (float)currentLevel.bpm;
-        SetCombination(0);
+        if (debugMode) {
+            SetCombination(0);
+        }
+
         SignalBeatStart(0);
     }
 
+    bool beatEnded = false;
     void Update()
     {
         time += Time.deltaTime;
 
+        if (!beatEnded && time >= beatLength - 0f)
+        {
+            SignalBeatEnd(beatIt);
+            beatEnded = true;
+        }
         if (time >= beatLength) {
             time -= beatLength;
 
-            SignalBeatEnd(beatIt);
+            //SignalBeatEnd(beatIt);
             beatIt++;
             SignalBeatStart(beatIt);
+            beatEnded = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow)) {
-            SetCombination((combIt + 1)%combinations.Count);
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (debugMode)
         {
-            SetCombination((combIt + combinations.Count - 1) % combinations.Count);
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                SetCombination((combIt + 1) % combinations.Count);
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                SetCombination((combIt + combinations.Count - 1) % combinations.Count);
+            }
         }
     }
 
@@ -114,7 +137,7 @@ public class Logic : MonoBehaviour {
         Utilities.DebugLogList(combinations[combIt]);
 
         for (int i = 0; i < hands.Length; ++i) {
-            hands[i].noteOffset = combinations[combIt][i];
+            hands[i].SetOffset(combinations[combIt][i]);
         }
     }
 
@@ -158,7 +181,7 @@ public class Logic : MonoBehaviour {
         List<int> combinationAux = new List<int>(currentLevel.handPlays.Length);
         FindCombinationsRecursive(ref combinations, ref combinationAux);
 
-        Debug.Log("Total combinations found: " + combinations.Count);
+        Debug.Log("Found " + combinations.Count+" possible combinations out of "+maxCombinations);
     }
 
     void FindCombinationsRecursive(ref List<List<int>> combinations, ref List<int> currentCombination) {

@@ -15,6 +15,11 @@ TextureImporter:
     21300020: ma
     21300022: pressing
     21300024: relaxed
+    21300026: finger_simple
+    21300028: button_on
+    21300030: button_off
+    21300032: arrow_off
+    21300034: arrow_on
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -260,7 +265,7 @@ TextureImporter:
         width: 19
         height: 17
       alignment: 9
-      pivot: {x: 0.49560407, y: 0.79970485}
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -289,6 +294,76 @@ TextureImporter:
         height: 13
       alignment: 9
       pivot: {x: 0.5, y: 1.8}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: finger_simple
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 88
+        width: 5
+        height: 14
+      alignment: 9
+      pivot: {x: 0.5, y: 0.83237946}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: button_on
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 27
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: button_off
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 20
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: arrow_off
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 33
+        width: 3
+        height: 5
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: arrow_on
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 27
+        width: 3
+        height: 5
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

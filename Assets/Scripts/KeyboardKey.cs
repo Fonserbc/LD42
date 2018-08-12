@@ -173,7 +173,7 @@ public class KeyboardKey : MonoBehaviour {
             if (source.isPlaying) source.Stop();
         }
         else {
-            Debug.LogError(handId + " released an unreleased key", this);
+            Debug.LogError(handId + " released an unreleased key "+name, this);
         }
     }
 
