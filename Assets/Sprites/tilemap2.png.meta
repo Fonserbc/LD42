@@ -20,6 +20,7 @@ TextureImporter:
     21300030: person_idle
     21300032: person_talking
     21300034: person_idle_1
+    21300036: around
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -364,6 +365,20 @@ TextureImporter:
         height: 29
       alignment: 7
       pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: around
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 280
+        width: 52
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

@@ -186,8 +186,8 @@ public class Logic : MonoBehaviour {
     }
 
     public void HandsTouched(int handLeft, int handRight) {
-        hands[handRight].StopPlaying();
-        hands[handLeft].StopPlaying();
+        hands[handRight].Clash();
+        hands[handLeft].Clash();
         Debug.Log("Touch! " + handLeft + " " + handRight);
     }
 

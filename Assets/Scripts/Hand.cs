@@ -11,6 +11,7 @@ public class Hand : MonoBehaviour
     public LineRenderer line0, line1;
     public float minLine0Distance = 3f;
     public Sprite pressingSprite, idleSprite;
+    public UnityEngine.UI.Image fillImage;
 
     public SpriteButton arrowButtonLeft, arrowButtonRight, toggleButton;
 
@@ -242,6 +243,12 @@ public class Hand : MonoBehaviour
             fingerTransform.position = Vector3.Lerp(lastFingerPos, restPos, lerpFactor);
         }
 
+        if (clashTime > 0) {
+            clashTime -= Time.deltaTime;
+            float clashfactor = Easing.Sinusoidal.In(Mathf.Clamp01(clashTime / maxClashTime));
+            fingerTransform.position += Vector3.right * 1.5f  * Mathf.Sin(Time.time * 15f) * clashfactor;
+        }
+
         // Knob pos
         Vector3 delta = fingerTransform.position - lineOrigin.position;
         Vector3 perp = delta.normalized;
@@ -260,6 +267,8 @@ public class Hand : MonoBehaviour
         line0.SetPosition(1, knob.position);
         line1.SetPosition(0, knob.position);
         line1.SetPosition(1, fingerTransform.position + (knob.position - fingerTransform.position).normalized * 0.18f);
+
+        fillImage.fillAmount = WorkingFactor();
     }
 
     void SetColor(Color c) {
@@ -270,6 +279,8 @@ public class Hand : MonoBehaviour
         arrowButtonLeft.Init(c);
         arrowButtonRight.Init(c);
         toggleButton.Init(c);
+
+        fillImage.color = Color.Lerp(Color.white, c, 0.3f);
     }
 
 
@@ -322,5 +333,13 @@ public class Hand : MonoBehaviour
 
     public float WorkingFactor() {
         return Mathf.Clamp01(workingBeats / (float)logic.currentLevel.blockCount);
+    }
+
+
+    float maxClashTime = 1.5f;
+    float clashTime = 0f;
+    public void Clash() {
+        StopPlaying();
+        clashTime = maxClashTime;
     }
 }

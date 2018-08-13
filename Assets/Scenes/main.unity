@@ -1263,6 +1263,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 223858603036712538, guid: 1a76a7fd78e31c24c85dd37955639611,
+        type: 2}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 837680568}
     - target: {fileID: 1919429789036718, guid: 1a76a7fd78e31c24c85dd37955639611, type: 2}
       propertyPath: m_IsActive
       value: 0
