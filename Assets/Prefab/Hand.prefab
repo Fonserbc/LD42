@@ -317,7 +317,7 @@ Transform:
   m_GameObject: {fileID: 1972176578946472}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4246480017170336}
   - {fileID: 4840601265109056}
@@ -360,7 +360,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1919429789036718}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -4.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4364242352154748}
@@ -608,7 +608,6 @@ MonoBehaviour:
   ownHandplay:
     name: Hand
     notes: []
-  isPlaying: 1
 --- !u!114 &114878666894469802
 MonoBehaviour:
   m_ObjectHideFlags: 1

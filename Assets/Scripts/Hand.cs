@@ -43,7 +43,7 @@ public class Hand : MonoBehaviour
                 return startPos;
             }
             else {
-                return lineOrigin.position + Vector3.up * 1.2f + Vector3.left * 1f;
+                return lineOrigin.position + Vector3.up * 1.2f + Vector3.left * 0.8f;
             }
         }
     }
@@ -57,6 +57,8 @@ public class Hand : MonoBehaviour
     SpriteRenderer[] options;
 
     float armsLength = 0;
+
+    int workingBeats = 0;
 
     public void Init(Logic l, int id)
     {
@@ -101,6 +103,7 @@ public class Hand : MonoBehaviour
         SetOffset(Random.Range(minOffset, maxOffset + 1));
 
         fingerTransform.position = restPos;
+        workingBeats = 0;
     }
 
     float MinArmLengthToReach(Vector3 pos) {
@@ -124,6 +127,7 @@ public class Hand : MonoBehaviour
         toggleButton.SetToggleState(false);
         lastFingerPos = fingerTransform.position;
         animTime = lerpTime;
+        workingBeats = 0;
     }
 
     public void StartPlaying() {
@@ -146,6 +150,8 @@ public class Hand : MonoBehaviour
         int beatIt = (beat + 1) % logic.currentLevel.blockCount;
 
         //Debug.Log("End " + ownId + ": " + beatIt + "=> ownHandplay.notes[" + currentIt + "].beatEnd = " + (ownHandplay.notes[currentIt].beatStart + ownHandplay.notes[currentIt].beatLength));
+
+        if (IsPlaying()) workingBeats++;
 
         if (((ownHandplay.notes[currentIt].blockStart + ownHandplay.notes[currentIt].blockLength) % logic.currentLevel.blockCount) == beatIt)
         {
@@ -293,6 +299,10 @@ public class Hand : MonoBehaviour
     public void SetOffset(int off) {
         noteOffset = Mathf.Clamp(off, minOffset, maxOffset);
         UpdateOffsetUI();
+        workingBeats = 0;
+        animTime = lerpTime / 2f;
+        lastFingerPos = fingerTransform.position;
+        finger.sprite = idleSprite;
     }
 
     void UpdateOffsetUI() {
@@ -308,5 +318,9 @@ public class Hand : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(lineOrigin.position, minLine0Distance);
         Gizmos.DrawLine(fingerTransform.position, fingerTransform.position - Vector3.up * fingerHeight);
+    }
+
+    public float WorkingFactor() {
+        return Mathf.Clamp01(workingBeats / (float)logic.currentLevel.blockCount);
     }
 }
