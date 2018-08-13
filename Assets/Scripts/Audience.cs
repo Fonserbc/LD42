@@ -81,8 +81,15 @@ public class Audience : MonoBehaviour {
         if (l.FinishLevelFactor() >= 1f) {
             nextCheerTime -= Time.deltaTime;
 
-            if (nextCheerTime <= 0) {
-                l.sounds.PlaySound(SoundEffects.EffectType.Cheer);
+            if (nextCheerTime <= 0)
+            {
+                if (l.IsOffsetRight())
+                {
+                    l.sounds.PlaySound(SoundEffects.EffectType.Cheer);
+                }
+                else {
+                    l.sounds.PlaySound(SoundEffects.EffectType.Oops);
+                }
 
                 nextCheerTime = Random.Range(2f, 4f);
             }

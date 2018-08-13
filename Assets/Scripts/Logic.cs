@@ -12,6 +12,7 @@ public class Logic : MonoBehaviour {
     public RectTransform piecesParent;
     public MenuPiece piecePrefab;
     public Color beatenColor = Color.green;
+    public Color awkwardColor = Color.gray;
     public GameObject backButton;
     public Transform holder;
     [Header("Hands")]
@@ -398,10 +399,29 @@ public class Logic : MonoBehaviour {
         return finishLevelFactor;
     }
 
+    public bool IsOffsetRight() {
+        bool right = true;
+
+        List<int> currentComb = new List<int>(hands.Length);
+
+        for (int i = 0; right && i < hands.Length; ++i) {
+            currentComb.Add(hands[i].GetOffset());
+        }
+
+        return CombinationsEqual(currentComb, combinations[0]);
+    }
+
     bool needRefresh = false;
     public void BackPressed() {
         if (finishLevelFactor == 1f) {
-            piecesInMenu[currentLevelIt].title.color = beatenColor;
+            if (IsOffsetRight())
+            {
+                piecesInMenu[currentLevelIt].title.color = beatenColor;
+            }
+            else
+            {
+                piecesInMenu[currentLevelIt].title.color = awkwardColor;
+            }
         }
 
         startedCamPosY = cam.transform.position.y;

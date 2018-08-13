@@ -99,7 +99,11 @@ public class Hand : MonoBehaviour
             options[i].gameObject.SetActive(true);
         }
 
-        armsLength = Mathf.Max(MinArmLengthToReach(logic.GetKeyPosition(logic.keys[logic.keys.Length - 1].note)), MinArmLengthToReach(logic.GetKeyPosition(logic.keys[0].note)));
+        armsLength = MinArmLengthToReach(logic.GetKeyPosition(logic.keys[0].note));
+        for (int i = 1; i < logic.keys.Length; ++i)
+        {
+            armsLength = Mathf.Max(armsLength, MinArmLengthToReach(logic.GetKeyPosition(logic.keys[i].note)));
+        }
 
         SetOffset(Random.Range(minOffset, maxOffset + 1));
 
@@ -314,6 +318,10 @@ public class Hand : MonoBehaviour
         animTime = lerpTime / 2f;
         lastFingerPos = fingerTransform.position;
         finger.sprite = idleSprite;
+    }
+
+    public int GetOffset() {
+        return noteOffset;
     }
 
     void UpdateOffsetUI() {
