@@ -12,21 +12,28 @@ public class SpriteButton : MonoBehaviour {
     public bool isToggle = false;
     bool toggleState = true;
 
+    public float lerpColorFactor = 0f;
+
     const float lingerTime = 0.1f;
     float time = 0f;
 
+    Color original;
+
+    public void Init(Color c) {
+        original = c;
+        OnEnable();
+    }
+
     public void OnEnable() {
-        if (isToggle)
-        {
-            rend.sprite = toggleState ? enabledSprite : disabledSprite;
-        }
-        else {
-            rend.sprite = enabledSprite;
-        }
+        rend.sprite = enabledSprite;
+        rend.color = Color.Lerp(original, Color.white, lerpColorFactor);
+
+        RefreshToggle();
     }
 
     public void OnDisable() {
         rend.sprite = disabledSprite;
+        rend.color = Color.Lerp(original, Color.black, lerpColorFactor);
     }
 
     public void SetToggleState(bool b) {
@@ -37,7 +44,16 @@ public class SpriteButton : MonoBehaviour {
 
     void RefreshToggle() {
         if (isToggle) {
-            rend.sprite = toggleState ? enabledSprite : disabledSprite;
+            if (toggleState)
+            {
+                rend.sprite = enabledSprite;
+                rend.color = Color.Lerp(original, Color.white, lerpColorFactor);
+            }
+            else
+            {
+                rend.sprite = disabledSprite;
+                rend.color = Color.Lerp(original, Color.black, lerpColorFactor);
+            }
         }
     }
 
@@ -53,6 +69,7 @@ public class SpriteButton : MonoBehaviour {
             {
                 time = lingerTime;
                 rend.sprite = disabledSprite;
+                rend.color = Color.Lerp(original, Color.black, lerpColorFactor);
                 onMouseDown.Invoke();
             }
         }
@@ -61,8 +78,18 @@ public class SpriteButton : MonoBehaviour {
     void Update() {
         if (!isToggle && time > 0) {
             time -= Time.deltaTime;
-            if (time <= 0) {
-                rend.sprite = enabled? enabledSprite : disabledSprite;
+            if (time <= 0)
+            {
+                if (enabled)
+                {
+                    rend.sprite = enabledSprite;
+                    rend.color = Color.Lerp(original, Color.white, lerpColorFactor);
+                }
+                else
+                {
+                    rend.sprite = disabledSprite;
+                    rend.color = Color.Lerp(original, Color.black, lerpColorFactor);
+                }
             }
         }
     }

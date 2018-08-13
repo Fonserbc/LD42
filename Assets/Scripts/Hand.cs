@@ -220,6 +220,10 @@ public class Hand : MonoBehaviour
         foreach (SpriteRenderer r in ownRenderers) {
             r.color = c;
         }
+
+        arrowButtonLeft.Init(c);
+        arrowButtonRight.Init(c);
+        toggleButton.Init(c);
     }
 
 
