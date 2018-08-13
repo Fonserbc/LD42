@@ -14,6 +14,7 @@ public class Logic : MonoBehaviour {
     public Color beatenColor = Color.green;
     public Color awkwardColor = Color.gray;
     public GameObject backButton;
+    public GameObject endButton;
     public Transform holder;
     [Header("Hands")]
     public Color[] handsColor;
@@ -137,6 +138,13 @@ public class Logic : MonoBehaviour {
         }
 
         FindAllCombinations();
+
+        for (int i = 0; IsOffsetRight() && i < 10; ++i) {
+            Utilities.RandomValue(hands).ChangeOffset();
+        }
+        if (IsOffsetRight()) {
+            Debug.LogError("Offset is right from beginning");
+        }
         //
         StartPlaying();
     }
@@ -233,6 +241,9 @@ public class Logic : MonoBehaviour {
                     SetCombination((combIt + combinations.Count - 1) % combinations.Count);
                 }
             }
+
+            endButton.SetActive(!needRefresh && finishLevelFactor >= 1 && IsOffsetRight());
+            backButton.SetActive(!needRefresh && (finishLevelFactor < 1 || !IsOffsetRight()));
         }
     }
 
@@ -396,7 +407,7 @@ public class Logic : MonoBehaviour {
 
     public float FinishLevelFactor()
     {
-        return finishLevelFactor;
+        return currentLevelIt >= 0? finishLevelFactor : 0;
     }
 
     public bool IsOffsetRight() {
@@ -416,11 +427,11 @@ public class Logic : MonoBehaviour {
         if (finishLevelFactor == 1f) {
             if (IsOffsetRight())
             {
-                piecesInMenu[currentLevelIt].title.color = beatenColor;
+                piecesInMenu[currentLevelIt].SetColor(beatenColor);
             }
             else
             {
-                piecesInMenu[currentLevelIt].title.color = awkwardColor;
+                //piecesInMenu[currentLevelIt].SetColor(awkwardColor);
             }
         }
 
@@ -429,6 +440,7 @@ public class Logic : MonoBehaviour {
         cameraLerptime = CAMERA_LERP_TIME;
         needRefresh = true;
         backButton.SetActive(false);
+        endButton.SetActive(false);
         finishLevelFactor = 0;
     }
 }

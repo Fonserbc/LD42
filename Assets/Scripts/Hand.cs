@@ -105,7 +105,13 @@ public class Hand : MonoBehaviour
             armsLength = Mathf.Max(armsLength, MinArmLengthToReach(logic.GetKeyPosition(logic.keys[i].note)));
         }
 
-        SetOffset(Random.Range(minOffset, maxOffset + 1));
+        noteOffset = 0;
+        if (maxOffset - minOffset > 0) {
+            while (noteOffset == 0) {
+                noteOffset = Random.Range(minOffset, maxOffset + 1);
+            }
+        }
+        SetOffset(noteOffset);
 
         fingerTransform.position = restPos;
         workingBeats = 0;
@@ -318,6 +324,11 @@ public class Hand : MonoBehaviour
         animTime = lerpTime / 2f;
         lastFingerPos = fingerTransform.position;
         finger.sprite = idleSprite;
+    }
+
+    public void ChangeOffset() {
+        if (noteOffset > minOffset) noteOffset--;
+        if (noteOffset < maxOffset) noteOffset++;
     }
 
     public int GetOffset() {

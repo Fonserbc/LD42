@@ -22,6 +22,7 @@ TextureImporter:
     21300034: person_idle_1
     21300036: around
     21300038: icon
+    21300040: tilemap2_4
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -393,7 +394,21 @@ TextureImporter:
         width: 10
         height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: tilemap2_4
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 457
+        width: 28
+        height: 38
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

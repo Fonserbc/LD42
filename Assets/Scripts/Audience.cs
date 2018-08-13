@@ -86,9 +86,12 @@ public class Audience : MonoBehaviour {
                 if (l.IsOffsetRight())
                 {
                     l.sounds.PlaySound(SoundEffects.EffectType.Cheer);
+                    for (int i = 0; i < 6; ++i)
+                        Utilities.RandomValue(persons).Cheer();
                 }
                 else {
                     l.sounds.PlaySound(SoundEffects.EffectType.Oops);
+                    Utilities.RandomValue(persons).Whisper();
                 }
 
                 nextCheerTime = Random.Range(2f, 4f);

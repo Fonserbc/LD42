@@ -17,75 +17,130 @@ MonoBehaviour:
   keyboardMax:
     octave: 5
     key: 0
-  bpm: 100
-  blockCount: 8
+  bpm: 110
+  blockCount: 16
   handPlays:
-  - name: hand 1
+  - name: Hand 1
     notes:
     - note:
-        octave: 5
-        key: 0
+        octave: 4
+        key: 11
       blockStart: 0
       blockLength: 2
     - note:
         octave: 4
-        key: 11
-      blockStart: 2
-      blockLength: 1
-    - note:
-        octave: 4
         key: 7
-      blockStart: 3
-      blockLength: 1
+      blockStart: 2
+      blockLength: 2
     - note:
         octave: 4
         key: 9
       blockStart: 4
-      blockLength: 1
+      blockLength: 2
     - note:
         octave: 4
-        key: 7
-      blockStart: 5
-      blockLength: 1
+        key: 2
+      blockStart: 6
+      blockLength: 2
+    - note:
+        octave: 4
+        key: 2
+      blockStart: 8
+      blockLength: 2
     - note:
         octave: 4
         key: 9
-      blockStart: 6
-      blockLength: 1
+      blockStart: 10
+      blockLength: 2
     - note:
         octave: 4
         key: 11
-      blockStart: 7
-      blockLength: 1
-  - name: hand 2
-    notes:
+      blockStart: 12
+      blockLength: 2
     - note:
         octave: 4
         key: 7
+      blockStart: 14
+      blockLength: 2
+  - name: Hand 2
+    notes:
+    - note:
+        octave: 4
+        key: 2
       blockStart: 0
       blockLength: 1
     - note:
         octave: 4
-        key: 0
+        key: 7
       blockStart: 1
       blockLength: 1
     - note:
         octave: 4
-        key: 4
+        key: 11
       blockStart: 2
-      blockLength: 2
+      blockLength: 1
     - note:
         octave: 4
-        key: 5
-      blockStart: 4
-      blockLength: 2
+        key: 2
+      blockStart: 3
+      blockLength: 1
     - note:
         octave: 4
         key: 6
+      blockStart: 4
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 2
+      blockStart: 5
+      blockLength: 1
+    - note:
+        octave: 5
+        key: 0
       blockStart: 6
       blockLength: 1
     - note:
         octave: 4
-        key: 7
+        key: 6
       blockStart: 7
+      blockLength: 1
+    - note:
+        octave: 5
+        key: 0
+      blockStart: 8
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 6
+      blockStart: 9
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 4
+      blockStart: 10
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 6
+      blockStart: 11
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 7
+      blockStart: 12
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 1
+      blockStart: 13
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 2
+      blockStart: 14
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 2
+      blockStart: 15
       blockLength: 1

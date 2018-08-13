@@ -72,6 +72,7 @@ MonoBehaviour:
   - {fileID: 21300030, guid: 6a10ba4997178cd44851534d1fd12e9d, type: 3}
   - {fileID: 21300034, guid: 6a10ba4997178cd44851534d1fd12e9d, type: 3}
   whisperSprite: {fileID: 21300032, guid: 6a10ba4997178cd44851534d1fd12e9d, type: 3}
+  cheerSprite: {fileID: 21300040, guid: 6a10ba4997178cd44851534d1fd12e9d, type: 3}
   minChange: 1
   maxChange: 4
 --- !u!222 &222262606092796140

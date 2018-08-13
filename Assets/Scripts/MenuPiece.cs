@@ -18,4 +18,11 @@ public class MenuPiece : MonoBehaviour {
             hands[i].gameObject.SetActive(i < l.handPlays.Length);
         }
     }
+
+    public void SetColor(Color c) {
+        for (int i = 0; i < hands.Length; ++i) {
+            hands[i].color = c;
+        }
+        title.color = c;
+    }
 }
