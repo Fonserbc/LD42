@@ -9,6 +9,8 @@ public class Audience : MonoBehaviour {
     public int rows = 10;
     public int columns = 20;
 
+    public Logic l;
+
     AudiencePerson[] persons;
 
 	// Use this for initialization
@@ -30,13 +32,65 @@ public class Audience : MonoBehaviour {
             }
         }
 	}
-	
+
+    float lastCalmFactor = 0;
+    float calmness = 0f;
+    float calmnessRegainTime = 2f;
+    float lastError = 0f;
+
+    float nextWhisperTime = 0f;
+
+    float nextCheerTime = 0f;
+    float lastWhisperSoundTime = -10f;
 	// Update is called once per frame
 	void Update () {
-		
+        float currentCalmFactor = CalmFactor();
+
+        if (currentCalmFactor < lastCalmFactor) {
+            lastError = calmnessRegainTime;
+        }
+
+        if (lastError > 0)
+        {
+            lastError -= Time.deltaTime;
+
+            float f = Mathf.Clamp01(lastError / calmnessRegainTime);
+
+            calmness = Mathf.Lerp(currentCalmFactor, 0f, f);
+        }
+        else {
+            calmness = currentCalmFactor;
+        }
+        lastCalmFactor = currentCalmFactor;
+
+
+        nextWhisperTime -= Time.deltaTime;
+
+        if (nextWhisperTime <= 0 && calmness < 1f) {
+            Utilities.RandomValue(persons).Whisper();
+
+            if (Time.time - lastWhisperSoundTime > 6f)
+            {
+                l.sounds.PlaySound(SoundEffects.EffectType.Whisper);
+                lastWhisperSoundTime = Time.time;
+            }
+
+            nextWhisperTime = Mathf.Lerp(0.1f, 2f, calmness);
+        }
+
+        if (l.FinishLevelFactor() >= 1f) {
+            nextCheerTime -= Time.deltaTime;
+
+            if (nextCheerTime <= 0) {
+                l.sounds.PlaySound(SoundEffects.EffectType.Cheer);
+
+                nextCheerTime = Random.Range(1f, 2f);
+            }
+        }
 	}
 
     public float CalmFactor() {
-        return (Mathf.Sin(Time.time) + 1f) / 2f;
+        float f = l.FinishLevelFactor();
+        return f < 1f? Easing.Circular.Out(f) : 0;
     }
 }

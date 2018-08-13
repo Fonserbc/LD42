@@ -6,6 +6,7 @@ public class Logic : MonoBehaviour {
 
     public Camera cam;
     public float minCamSize = 5f;
+    public SoundEffects sounds;
     [Header("Hands")]
     public Color[] handsColor;
     public Hand handPrefab;
@@ -123,8 +124,18 @@ public class Logic : MonoBehaviour {
     }
 
     bool beatEnded = false;
+    float finishLevelFactor = 0f;
     void Update()
     {
+        finishLevelFactor = 0;
+        for (int i = 0; i < hands.Length; ++i)
+        {
+            finishLevelFactor += hands[i].WorkingFactor();
+        }
+
+        finishLevelFactor /= (float)hands.Length;
+
+        //
         time += Time.deltaTime;
 
         if (!beatEnded && time >= beatLength - 0f)
@@ -188,6 +199,8 @@ public class Logic : MonoBehaviour {
     public void HandsTouched(int handLeft, int handRight) {
         hands[handRight].Clash();
         hands[handLeft].Clash();
+        sounds.PlaySound(SoundEffects.EffectType.Clash);
+        sounds.PlaySound(SoundEffects.EffectType.Oops);
         Debug.Log("Touch! " + handLeft + " " + handRight);
     }
 
@@ -308,5 +321,10 @@ public class Logic : MonoBehaviour {
         }
 
         return true;
+    }
+
+    public float FinishLevelFactor()
+    {
+        return finishLevelFactor;
     }
 }
