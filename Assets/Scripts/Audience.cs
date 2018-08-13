@@ -84,7 +84,7 @@ public class Audience : MonoBehaviour {
             if (nextCheerTime <= 0) {
                 l.sounds.PlaySound(SoundEffects.EffectType.Cheer);
 
-                nextCheerTime = Random.Range(1f, 2f);
+                nextCheerTime = Random.Range(2f, 4f);
             }
         }
 	}

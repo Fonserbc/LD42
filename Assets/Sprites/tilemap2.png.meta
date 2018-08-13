@@ -21,6 +21,7 @@ TextureImporter:
     21300032: person_talking
     21300034: person_idle_1
     21300036: around
+    21300038: icon
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -377,6 +378,20 @@ TextureImporter:
         y: 280
         width: 52
         height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: icon
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 403
+        width: 10
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

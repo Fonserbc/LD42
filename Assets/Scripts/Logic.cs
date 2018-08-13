@@ -9,6 +9,11 @@ public class Logic : MonoBehaviour {
     public SoundEffects sounds;
     [Header("Program")]
     public Transform program;
+    public RectTransform piecesParent;
+    public MenuPiece piecePrefab;
+    public Color beatenColor = Color.green;
+    public GameObject backButton;
+    public Transform holder;
     [Header("Hands")]
     public Color[] handsColor;
     public Hand handPrefab;
@@ -19,7 +24,12 @@ public class Logic : MonoBehaviour {
     public Level[] levels;
 
     [HideInInspector]
-    public Level currentLevel;
+    public Level currentLevel {
+        get {
+            return levels[Mathf.Max(0, currentLevelIt)];
+        }
+    }
+    int currentLevelIt = -1;
     Transform keyboardTransform;
     Transform handsTransform;
 
@@ -33,6 +43,8 @@ public class Logic : MonoBehaviour {
 
     const float cameraStartHeight = 15f;
 
+    MenuPiece[] piecesInMenu;
+
     [Header("Debug")]
     public bool debugMode = false;
 
@@ -40,18 +52,33 @@ public class Logic : MonoBehaviour {
     {
         keyboardTransform = new GameObject("Keyboard").transform;
         handsTransform = new GameObject("Hands").transform;
-        Init(levels[0]);
+
+        piecesInMenu = new MenuPiece[levels.Length];
+        for (int i = 0; i < levels.Length; ++i) {
+            MenuPiece p = Instantiate(piecePrefab, piecesParent).GetComponent<MenuPiece>();
+            p.Init(levels[i]);
+
+            int aux = i;
+            p.ownButton.onClick.AddListener(() => {
+                Init(aux);
+            });
+            piecesInMenu[i] = p;
+            p.ownRt.anchoredPosition = new Vector2(0, i * -66);
+        }
+        backButton.SetActive(false);
     }
     
-	void Init (Level l)
+	void Init (int nextlevelit)
     {
+        currentLevelIt = nextlevelit;
+        Level l = currentLevel;
+
         if (l.keyboardMin > l.keyboardMax)
         {
             Debug.Log("Keyboard is impossible");
             return;
         }
 
-        currentLevel = l;
         l.Init();
         Note from = l.keyboardMin;
         Note to = l.keyboardMax;
@@ -115,7 +142,7 @@ public class Logic : MonoBehaviour {
 
     float startedCamPosY = 0f;
     float wantedCamPosY = 0f;
-    const float CAMERA_LERP_TIME = 2f;
+    const float CAMERA_LERP_TIME = 0.7f;
     float cameraLerptime = 0;
     int combIt = 0;
     void StartPlaying()
@@ -147,42 +174,63 @@ public class Logic : MonoBehaviour {
             float f = Mathf.Clamp01(cameraLerptime / CAMERA_LERP_TIME);
 
             cam.transform.position = new Vector3(cam.transform.position.x, Mathf.Lerp(wantedCamPosY, startedCamPosY, Easing.Sinusoidal.In(f)), cam.transform.position.z);
-        }
 
-        finishLevelFactor = 0;
-        for (int i = 0; i < hands.Length; ++i)
-        {
-            finishLevelFactor += hands[i].WorkingFactor();
-        }
+            holder.transform.localScale = new Vector3(1, Mathf.Lerp(0, 1f, needRefresh ? 1f - f : f), 1f);
 
-        finishLevelFactor /= (float)hands.Length;
+            if (f <= 0) {
+                if (needRefresh)
+                {
+                    Destroy(keyboardTransform.gameObject);
+                    Destroy(handsTransform.gameObject);
 
-        //
-        time += Time.deltaTime;
-
-        if (!beatEnded && time >= beatLength - 0f)
-        {
-            SignalBeatEnd(beatIt);
-            beatEnded = true;
-        }
-        if (time >= beatLength) {
-            time -= beatLength;
-
-            //SignalBeatEnd(beatIt);
-            beatIt++;
-            SignalBeatStart(beatIt);
-            beatEnded = false;
-        }
-
-        if (debugMode)
-        {
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                SetCombination((combIt + 1) % combinations.Count);
+                    keyboardTransform = new GameObject("Keyboard").transform;
+                    handsTransform = new GameObject("Hands").transform;
+                    needRefresh = false;
+                    currentLevelIt = -1;
+                }
+                else {
+                    backButton.SetActive(true);
+                }
             }
-            else if (Input.GetKeyDown(KeyCode.DownArrow))
+        }
+
+        if (currentLevelIt >= 0)
+        {
+            finishLevelFactor = 0;
+            for (int i = 0; i < hands.Length; ++i)
             {
-                SetCombination((combIt + combinations.Count - 1) % combinations.Count);
+                finishLevelFactor += hands[i].WorkingFactor();
+            }
+
+            finishLevelFactor /= (float)hands.Length;
+
+            //
+            time += Time.deltaTime;
+
+            if (!beatEnded && time >= beatLength - 0f)
+            {
+                SignalBeatEnd(beatIt);
+                beatEnded = true;
+            }
+            if (time >= beatLength) {
+                time -= beatLength;
+
+                //SignalBeatEnd(beatIt);
+                beatIt++;
+                SignalBeatStart(beatIt);
+                beatEnded = false;
+            }
+
+            if (debugMode)
+            {
+                if (Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    SetCombination((combIt + 1) % combinations.Count);
+                }
+                else if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    SetCombination((combIt + combinations.Count - 1) % combinations.Count);
+                }
             }
         }
     }
@@ -348,5 +396,19 @@ public class Logic : MonoBehaviour {
     public float FinishLevelFactor()
     {
         return finishLevelFactor;
+    }
+
+    bool needRefresh = false;
+    public void BackPressed() {
+        if (finishLevelFactor == 1f) {
+            piecesInMenu[currentLevelIt].title.color = beatenColor;
+        }
+
+        startedCamPosY = cam.transform.position.y;
+        wantedCamPosY = cameraStartHeight;
+        cameraLerptime = CAMERA_LERP_TIME;
+        needRefresh = true;
+        backButton.SetActive(false);
+        finishLevelFactor = 0;
     }
 }

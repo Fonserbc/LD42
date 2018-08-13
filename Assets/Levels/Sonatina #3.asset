@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4227f4af5f283bc4fb6b7544ae1126a6, type: 3}
-  m_Name: 2 - 3 hand 1 fix
+  m_Name: 'Sonatina #3'
   m_EditorClassIdentifier: 
   keyboardMin:
     octave: 4
@@ -17,97 +17,130 @@ MonoBehaviour:
   keyboardMax:
     octave: 5
     key: 0
-  bpm: 70
-  blockCount: 8
+  bpm: 110
+  blockCount: 16
   handPlays:
-  - name: Hand1
+  - name: Hand 1
     notes:
     - note:
         octave: 4
         key: 11
       blockStart: 0
-      blockLength: 4
+      blockLength: 2
     - note:
-        octave: 5
-        key: 0
+        octave: 4
+        key: 7
+      blockStart: 2
+      blockLength: 2
+    - note:
+        octave: 4
+        key: 9
       blockStart: 4
-      blockLength: 1
+      blockLength: 2
     - note:
         octave: 4
-        key: 7
-      blockStart: 5
-      blockLength: 1
-    - note:
-        octave: 5
-        key: 0
+        key: 2
       blockStart: 6
-      blockLength: 1
+      blockLength: 2
+    - note:
+        octave: 4
+        key: 2
+      blockStart: 8
+      blockLength: 2
+    - note:
+        octave: 4
+        key: 9
+      blockStart: 10
+      blockLength: 2
+    - note:
+        octave: 4
+        key: 11
+      blockStart: 12
+      blockLength: 2
     - note:
         octave: 4
         key: 7
-      blockStart: 7
-      blockLength: 1
-  - name: Hand2
+      blockStart: 14
+      blockLength: 2
+  - name: Hand 2
     notes:
     - note:
         octave: 4
-        key: 0
+        key: 2
       blockStart: 0
       blockLength: 1
     - note:
         octave: 4
-        key: 2
+        key: 7
       blockStart: 1
       blockLength: 1
     - note:
         octave: 4
-        key: 4
+        key: 11
       blockStart: 2
       blockLength: 1
     - note:
         octave: 4
-        key: 5
+        key: 2
       blockStart: 3
       blockLength: 1
     - note:
         octave: 4
-        key: 7
+        key: 6
       blockStart: 4
       blockLength: 1
     - note:
         octave: 4
-        key: 9
+        key: 2
       blockStart: 5
-      blockLength: 1
-    - note:
-        octave: 4
-        key: 11
-      blockStart: 6
       blockLength: 1
     - note:
         octave: 5
         key: 0
+      blockStart: 6
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 6
       blockStart: 7
       blockLength: 1
-  - name: Hand3
-    notes:
+    - note:
+        octave: 5
+        key: 0
+      blockStart: 8
+      blockLength: 1
     - note:
         octave: 4
-        key: 7
-      blockStart: 0
-      blockLength: 2
-    - note:
-        octave: 4
-        key: 2
-      blockStart: 2
-      blockLength: 2
+        key: 6
+      blockStart: 9
+      blockLength: 1
     - note:
         octave: 4
         key: 4
-      blockStart: 4
-      blockLength: 2
+      blockStart: 10
+      blockLength: 1
     - note:
         octave: 4
-        key: 0
-      blockStart: 6
-      blockLength: 2
+        key: 6
+      blockStart: 11
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 7
+      blockStart: 12
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 1
+      blockStart: 13
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 2
+      blockStart: 14
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 2
+      blockStart: 15
+      blockLength: 1
