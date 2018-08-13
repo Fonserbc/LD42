@@ -19,6 +19,9 @@ public class Hand : MonoBehaviour
 
     public float fingerHeight = 2f;
 
+    float lerpTime = 0.5f;
+    float animTime = 0f;
+
     [HideInInspector]
     public Level.HandPlay ownHandplay;
 
@@ -33,12 +36,18 @@ public class Hand : MonoBehaviour
 
     Vector3 restPos {
         get {
-            middleNote = (ownHandplay.LowestNote() + ownHandplay.HighestNote()) / 2;
-            startPos = logic.GetKeyPosition(middleNote + noteOffset, false) - Vector3.up * KeyboardKey.keyHeight / 4f + Vector3.down * (ownId / (float)logic.handsColor.Length);
-            return startPos;
+            if (isPlaying)
+            {
+                middleNote = (ownHandplay.LowestNote() + ownHandplay.HighestNote()) / 2;
+                startPos = logic.GetKeyPosition(middleNote + noteOffset, false) - Vector3.up * KeyboardKey.keyHeight / 4f + Vector3.down * (ownId / (float)logic.handsColor.Length);
+                return startPos;
+            }
+            else {
+                return lineOrigin.position + Vector3.up * 1.2f + Vector3.left * 1f;
+            }
         }
     }
-    public bool isPlaying = true;
+    bool isPlaying = true;
 
     Vector3 startPos;
 
@@ -90,7 +99,8 @@ public class Hand : MonoBehaviour
         armsLength = Mathf.Max(MinArmLengthToReach(logic.GetKeyPosition(logic.keys[logic.keys.Length - 1].note)), MinArmLengthToReach(logic.GetKeyPosition(logic.keys[0].note)));
 
         SetOffset(Random.Range(minOffset, maxOffset + 1));
-        toggleButton.SetToggleState(true);
+
+        fingerTransform.position = restPos;
     }
 
     float MinArmLengthToReach(Vector3 pos) {
@@ -100,13 +110,26 @@ public class Hand : MonoBehaviour
         return a;
     }
 
+    public bool IsPlaying() {
+        return isPlaying;
+    }
+
     public void Clean() {
         Destroy(optionsParent.gameObject);
     }
 
+    Vector3 lastFingerPos = Vector3.zero;
     public void StopPlaying() {
         isPlaying = false;
         toggleButton.SetToggleState(false);
+        lastFingerPos = fingerTransform.position;
+        animTime = lerpTime;
+    }
+
+    public void StartPlaying() {
+        isPlaying = true;
+        lastFingerPos = fingerTransform.position;
+        animTime = lerpTime;
     }
 
     public void BeatStarted(int beat) {
@@ -132,7 +155,7 @@ public class Hand : MonoBehaviour
     }
 
     void PressKey(KeyboardKey k) {
-        if (!isPlaying) return;
+        if (!isPlaying || GetLerpFactor() < 0.9f) return;
         k.Pressed(ownId);
         finger.sprite = pressingSprite;
         keyPressing = k;
@@ -145,8 +168,21 @@ public class Hand : MonoBehaviour
         keyPressing = null;
     }
 
+    float GetLerpFactor() {
+        if (animTime > 0)
+        {
+            return 1f - Mathf.Clamp01(animTime / lerpTime);
+        }
+        else return 1f;
+    }
+
     void Update()
     {
+        if (animTime > 0) {
+            animTime -= Time.deltaTime;
+        }
+        float lerpFactor = GetLerpFactor();
+
         if (isPlaying)
         {
             float currentBeatFloat = logic.CurrentBeatFloat();
@@ -186,14 +222,18 @@ public class Hand : MonoBehaviour
                 nextBeatPos = logic.GetKeyPosition(ownHandplay.notes[currentIt].note + noteOffset);
                 nextBeatPos.y += fingerHeight;
             }
+
+            Vector3 wantedPos = fingerTransform.position;
             if (f > minFactor)
             {
-                fingerTransform.position = Vector3.Lerp(currentBeatPos, nextBeatPos, (f - minFactor) / (1f - minFactor));
+                wantedPos = Vector3.Lerp(currentBeatPos, nextBeatPos, (f - minFactor) / (1f - minFactor));
             }
-            else fingerTransform.position = currentBeatPos;
+            else wantedPos = currentBeatPos;
+
+            fingerTransform.position = Vector3.Lerp(lastFingerPos, wantedPos, lerpFactor);
         }
         else {
-            fingerTransform.position = Vector3.Lerp(fingerTransform.position, restPos, Time.deltaTime * 3f);
+            fingerTransform.position = Vector3.Lerp(lastFingerPos, restPos, lerpFactor);
         }
 
         // Knob pos
@@ -228,7 +268,13 @@ public class Hand : MonoBehaviour
 
 
     public void TogglePressed() {
-        isPlaying = toggleButton.ToggleSate();
+        if (toggleButton.ToggleSate())
+        {
+            StartPlaying();
+        }
+        else {
+            StopPlaying();
+        }
     }
 
     public void RightArrowPressed() {

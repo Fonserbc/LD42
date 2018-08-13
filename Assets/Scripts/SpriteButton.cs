@@ -38,7 +38,6 @@ public class SpriteButton : MonoBehaviour {
 
     public void SetToggleState(bool b) {
         toggleState = b;
-
         RefreshToggle();
     }
 

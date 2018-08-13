@@ -154,7 +154,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -179,20 +179,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 20767900867346430}
-  minCamSize: 6
+  minCamSize: 5
   handsColor:
-  - {r: 1, g: 0, b: 0, a: 1}
-  - {r: 0, g: 0.822, b: 0, a: 1}
-  - {r: 0, g: 0.428, b: 1, a: 1}
+  - {r: 1, g: 0.6745098, b: 0.12156863, a: 1}
+  - {r: 0.49803922, g: 0.22745098, b: 0.69803923, a: 1}
+  - {r: 0.3647059, g: 1, b: 0.62352943, a: 1}
   - {r: 1, g: 0.9724138, b: 0, a: 1}
   - {r: 0.82069016, g: 0, b: 1, a: 1}
   handPrefab: {fileID: 114590614986130358, guid: 1a76a7fd78e31c24c85dd37955639611,
     type: 2}
   keyboardKeyPrefab: {fileID: 114439458036902346, guid: 6754eef289e46e34db4f453fcbcdc9f5,
     type: 2}
+  keyboardBasePrefab: {fileID: 1613995673651564, guid: ab9f60bde1b5426409bd85fab79b9893,
+    type: 2}
   levels:
-  - {fileID: 11400000, guid: 86cee060c9544db419df67e7cb8a416a, type: 2}
+  - {fileID: 11400000, guid: 26daabd6571aa43bc8b4d8123848fef5, type: 2}
   currentLevel: {fileID: 0}
+  keys: []
+  debugMode: 0
 --- !u!124 &124794197805379874
 Behaviour:
   m_ObjectHideFlags: 1

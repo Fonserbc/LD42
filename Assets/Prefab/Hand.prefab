@@ -569,7 +569,7 @@ MonoBehaviour:
   enabledSprite: {fileID: 21300022, guid: 6a10ba4997178cd44851534d1fd12e9d, type: 3}
   disabledSprite: {fileID: 21300020, guid: 6a10ba4997178cd44851534d1fd12e9d, type: 3}
   isToggle: 1
-  lerpColorFactor: 0.7
+  lerpColorFactor: 0
 --- !u!114 &114590614986130358
 MonoBehaviour:
   m_ObjectHideFlags: 1
