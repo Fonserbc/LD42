@@ -31,6 +31,9 @@ public class KeyboardKey : MonoBehaviour {
     float[] handTimes;
     int pressingHand = -1;
     Color originalColor;
+
+    const float FADEOUT_TIME = 0.1f;
+    float fadeoutTime = 0;
     
 	public void Init (Logic l) {
         logic = l;
@@ -170,7 +173,12 @@ public class KeyboardKey : MonoBehaviour {
         else {
             pressingHand = handId;
             handTimes[pressingHand] = handColorLinger;
+            if (source.isPlaying) {
+                source.Stop();
+                source.volume = 1;
+            }
             source.Play();
+            fadeoutTime = 0;
         }
     }
 
@@ -178,7 +186,7 @@ public class KeyboardKey : MonoBehaviour {
         if (pressingHand == handId)
         {
             pressingHand = -1;
-            if (source.isPlaying) source.Stop();
+            if (source.isPlaying) fadeoutTime = FADEOUT_TIME;
         }
         else {
             //Debug.LogError(handId + " released an unreleased key "+name, this);
@@ -222,6 +230,17 @@ public class KeyboardKey : MonoBehaviour {
             color /= (float)count;
 
             ownRenderer.color = new Color(color.x, color.y, color.z);
+        }
+
+        if (source.isPlaying && fadeoutTime > 0) {
+            fadeoutTime -= Time.deltaTime;
+            float f = Mathf.Clamp01(fadeoutTime / FADEOUT_TIME);
+            source.volume = f;
+
+            if (f <= 0) {
+                source.Stop();
+                source.volume = 1;
+            }
         }
     }
 }

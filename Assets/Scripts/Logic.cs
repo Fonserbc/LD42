@@ -7,6 +7,8 @@ public class Logic : MonoBehaviour {
     public Camera cam;
     public float minCamSize = 5f;
     public SoundEffects sounds;
+    [Header("Program")]
+    public Transform program;
     [Header("Hands")]
     public Color[] handsColor;
     public Hand handPrefab;
@@ -28,6 +30,8 @@ public class Logic : MonoBehaviour {
     float time = 0;
     float beatLength = 0;
     int beatIt = 0;
+
+    const float cameraStartHeight = 15f;
 
     [Header("Debug")]
     public bool debugMode = false;
@@ -74,6 +78,7 @@ public class Logic : MonoBehaviour {
         float middle = (keys[0].transform.position.x + keys[keys.Length - 1].transform.position.x) / 2f;
 
         cam.transform.position = new Vector3(middle, -height / 2f + KeyboardKey.keyHeight * 1.5f, cam.transform.position.z);
+        program.position = new Vector3(cam.transform.position.x, program.position.y, program.position.z);
         cam.orthographicSize = height / 2f;
 
         hands = new Hand[l.handPlays.Length];
@@ -108,8 +113,18 @@ public class Logic : MonoBehaviour {
         StartPlaying();
     }
 
+    float startedCamPosY = 0f;
+    float wantedCamPosY = 0f;
+    const float CAMERA_LERP_TIME = 2f;
+    float cameraLerptime = 0;
     int combIt = 0;
-    void StartPlaying() {
+    void StartPlaying()
+    {
+        wantedCamPosY = cam.transform.position.y;
+        startedCamPosY = cameraStartHeight;
+        cam.transform.position = new Vector3(cam.transform.position.x, cameraStartHeight, cam.transform.position.z);
+        cameraLerptime = CAMERA_LERP_TIME;
+
         beatIt = 0;
         time = 0;
         beatLength = 60f / (float)currentLevel.bpm;
@@ -127,6 +142,13 @@ public class Logic : MonoBehaviour {
     float finishLevelFactor = 0f;
     void Update()
     {
+        if (cameraLerptime > 0) {
+            cameraLerptime -= Time.deltaTime;
+            float f = Mathf.Clamp01(cameraLerptime / CAMERA_LERP_TIME);
+
+            cam.transform.position = new Vector3(cam.transform.position.x, Mathf.Lerp(wantedCamPosY, startedCamPosY, Easing.Sinusoidal.In(f)), cam.transform.position.z);
+        }
+
         finishLevelFactor = 0;
         for (int i = 0; i < hands.Length; ++i)
         {

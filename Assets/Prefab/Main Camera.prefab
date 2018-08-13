@@ -69,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1164301921377198}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 15, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4131567573133288}
@@ -376,6 +376,7 @@ MonoBehaviour:
   cam: {fileID: 20767900867346430}
   minCamSize: 7
   sounds: {fileID: 114952626265685044}
+  program: {fileID: 0}
   handsColor:
   - {r: 1, g: 0.6745098, b: 0.12156863, a: 1}
   - {r: 0.49803922, g: 0.22745098, b: 0.69803923, a: 1}
