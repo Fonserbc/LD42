@@ -11,6 +11,7 @@ public class Logic : MonoBehaviour {
     public Hand handPrefab;
     [Header("Keyboard")]
     public KeyboardKey keyboardKeyPrefab;
+    public GameObject keyboardBasePrefab;
     [Header("Levels")]
     public Level[] levels;
 
@@ -59,16 +60,19 @@ public class Logic : MonoBehaviour {
             keys[i].Init(this);
         }
 
-        float width = keys[keys.Length-1].transform.position.x - keys[0].transform.position.x;
-        width += KeyboardKey.keyDistance * 2f;
+        Transform keyboardBase = Instantiate(keyboardBasePrefab, keyboardTransform).transform;
+        keyboardBase.position = new Vector3((keys[0].transform.position.x + keys[keys.Length - 1].transform.position.x) / 2f, KeyboardKey.keyHeight, 0);
+
+        float keyboardWidth = keys[keys.Length - 1].transform.position.x - keys[0].transform.position.x;
+        float width = keyboardWidth + KeyboardKey.keyDistance * 2f;
+            keyboardBase.localScale = new Vector3(width, keyboardBasePrefab.transform.localScale.y, 1);
         float ratio = Screen.width / (float)Screen.height;
         float height = Mathf.Max(minCamSize * 2f, width / ratio);
-        float keyboardWidth = width;
         width = height * ratio;
 
         float middle = (keys[0].transform.position.x + keys[keys.Length - 1].transform.position.x) / 2f;
 
-        cam.transform.position = new Vector3(middle, -height / 2f + KeyboardKey.keyHeight, cam.transform.position.z);
+        cam.transform.position = new Vector3(middle, -height / 2f + KeyboardKey.keyHeight * 1.5f, cam.transform.position.z);
         cam.orthographicSize = height / 2f;
 
         hands = new Hand[l.handPlays.Length];
