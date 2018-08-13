@@ -232,6 +232,21 @@ Prefab:
       propertyPath: holder
       value: 
       objectReference: {fileID: 2117025290}
+    - target: {fileID: 114676953021540854, guid: 459175b1918552e4c9e2e4fe97893a94,
+        type: 2}
+      propertyPath: awkwardColor.r
+      value: 0.5661765
+      objectReference: {fileID: 0}
+    - target: {fileID: 114676953021540854, guid: 459175b1918552e4c9e2e4fe97893a94,
+        type: 2}
+      propertyPath: awkwardColor.g
+      value: 0.3618453
+      objectReference: {fileID: 0}
+    - target: {fileID: 114676953021540854, guid: 459175b1918552e4c9e2e4fe97893a94,
+        type: 2}
+      propertyPath: awkwardColor.b
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 459175b1918552e4c9e2e4fe97893a94, type: 2}
   m_IsPrefabParent: 0
