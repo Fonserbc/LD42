@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4227f4af5f283bc4fb6b7544ae1126a6, type: 3}
-  m_Name: 'Sonatina #5'
+  m_Name: Sonata in Amin
   m_EditorClassIdentifier: 
   keyboardMin:
     octave: 4
@@ -17,68 +17,41 @@ MonoBehaviour:
   keyboardMax:
     octave: 5
     key: 0
-  bpm: 110
+  bpm: 130
   blockCount: 16
   handPlays:
-  - name: Theme
+  - name: theme
     notes:
     - note:
         octave: 4
-        key: 10
+        key: 0
       blockStart: 0
-      blockLength: 2
+      blockLength: 1
     - note:
         octave: 4
-        key: 9
+        key: 2
+      blockStart: 1
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 0
       blockStart: 2
-      blockLength: 2
+      blockLength: 1
     - note:
         octave: 4
-        key: 7
+        key: 2
+      blockStart: 3
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 4
       blockStart: 4
       blockLength: 2
     - note:
         octave: 4
         key: 5
       blockStart: 6
-      blockLength: 2
-    - note:
-        octave: 4
-        key: 7
-      blockStart: 8
       blockLength: 1
-    - note:
-        octave: 4
-        key: 7
-      blockStart: 9
-      blockLength: 7
-  - name: bass
-    notes:
-    - note:
-        octave: 4
-        key: 0
-      blockStart: 0
-      blockLength: 1
-    - note:
-        octave: 4
-        key: 0
-      blockStart: 1
-      blockLength: 2
-    - note:
-        octave: 4
-        key: 5
-      blockStart: 3
-      blockLength: 1
-    - note:
-        octave: 4
-        key: 0
-      blockStart: 4
-      blockLength: 1
-    - note:
-        octave: 4
-        key: 0
-      blockStart: 5
-      blockLength: 2
     - note:
         octave: 4
         key: 7
@@ -86,64 +59,59 @@ MonoBehaviour:
       blockLength: 1
     - note:
         octave: 4
-        key: 0
+        key: 9
       blockStart: 8
-      blockLength: 1
+      blockLength: 2
     - note:
-        octave: 4
+        octave: 5
         key: 0
-      blockStart: 9
+      blockStart: 10
       blockLength: 2
     - note:
         octave: 4
-        key: 5
-      blockStart: 11
-      blockLength: 1
-    - note:
-        octave: 4
-        key: 0
+        key: 11
       blockStart: 12
       blockLength: 1
     - note:
         octave: 4
-        key: 0
+        key: 8
       blockStart: 13
       blockLength: 2
     - note:
         octave: 4
-        key: 5
+        key: 9
       blockStart: 15
       blockLength: 1
-  - name: comp 1
+  - name: comp1
     notes:
     - note:
-        octave: 5
-        key: 0
+        octave: 4
+        key: 9
       blockStart: 0
       blockLength: 1
     - note:
         octave: 4
-        key: 3
+        key: 9
       blockStart: 1
       blockLength: 1
     - note:
-        octave: 5
-        key: 0
+        octave: 4
+        key: 9
       blockStart: 2
       blockLength: 1
     - note:
         octave: 4
-        key: 3
+        key: 9
       blockStart: 3
       blockLength: 1
     - note:
         octave: 4
-        key: 10
+        key: 9
       blockStart: 4
       blockLength: 1
     - note:
         octave: 4
-        key: 3
+        key: 9
       blockStart: 5
       blockLength: 1
     - note:
@@ -153,76 +121,71 @@ MonoBehaviour:
       blockLength: 1
     - note:
         octave: 4
-        key: 3
+        key: 9
       blockStart: 7
       blockLength: 1
     - note:
         octave: 4
-        key: 10
+        key: 5
       blockStart: 8
       blockLength: 1
     - note:
         octave: 4
-        key: 3
+        key: 5
       blockStart: 9
       blockLength: 1
     - note:
         octave: 4
-        key: 10
+        key: 5
       blockStart: 10
       blockLength: 1
     - note:
         octave: 4
-        key: 3
+        key: 5
       blockStart: 11
       blockLength: 1
     - note:
         octave: 4
-        key: 9
+        key: 4
       blockStart: 12
       blockLength: 1
     - note:
         octave: 4
-        key: 3
+        key: 4
       blockStart: 13
-      blockLength: 1
-    - note:
-        octave: 4
-        key: 2
-      blockStart: 14
-      blockLength: 1
-    - note:
-        octave: 4
-        key: 3
-      blockStart: 15
-      blockLength: 1
-  - name: comp 1
-    notes:
-    - note:
-        octave: 4
-        key: 7
-      blockStart: 0
       blockLength: 2
     - note:
         octave: 4
+        key: 4
+      blockStart: 15
+      blockLength: 1
+  - name: harm1
+    notes:
+    - note:
+        octave: 4
+        key: 4
+      blockStart: 0
+      blockLength: 1
+    - note:
+        octave: 4
         key: 5
+      blockStart: 1
+      blockLength: 1
+    - note:
+        octave: 4
+        key: 4
       blockStart: 2
       blockLength: 1
     - note:
         octave: 4
-        key: 0
+        key: 5
       blockStart: 3
       blockLength: 1
     - note:
         octave: 4
-        key: 3
+        key: 7
       blockStart: 4
-      blockLength: 1
-    - note:
-        octave: 4
-        key: 5
-      blockStart: 5
-      blockLength: 1
+      blockLength: 2
     - note:
         octave: 4
         key: 2
@@ -230,41 +193,31 @@ MonoBehaviour:
       blockLength: 1
     - note:
         octave: 4
-        key: 0
+        key: 4
       blockStart: 7
       blockLength: 1
     - note:
         octave: 4
         key: 2
       blockStart: 8
-      blockLength: 1
-    - note:
-        octave: 4
-        key: 2
-      blockStart: 9
       blockLength: 2
     - note:
         octave: 4
-        key: 0
-      blockStart: 11
-      blockLength: 1
+        key: 9
+      blockStart: 10
+      blockLength: 2
     - note:
         octave: 4
-        key: 2
+        key: 8
       blockStart: 12
       blockLength: 1
     - note:
         octave: 4
         key: 2
       blockStart: 13
-      blockLength: 1
+      blockLength: 2
     - note:
         octave: 4
-        key: 9
-      blockStart: 14
-      blockLength: 1
-    - note:
-        octave: 4
-        key: 10
+        key: 0
       blockStart: 15
       blockLength: 1
