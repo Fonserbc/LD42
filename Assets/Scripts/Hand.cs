@@ -4,19 +4,29 @@ using UnityEngine;
 
 public class Hand : MonoBehaviour
 {
-    public SpriteRenderer[] ownRenderers;
+    public List<SpriteRenderer> ownRenderers;
     public Transform fingerTransform;
     public Transform bodyTransform;
     public Transform lineOrigin, knob;
     public LineRenderer line0, line1;
     public float minLine0Distance = 3f;
     public Sprite pressingSprite, idleSprite;
-    public UnityEngine.UI.Image fillImage;
 
     public SpriteButton arrowButtonLeft, arrowButtonRight, toggleButton;
 
     public SpriteRenderer optionsFrom, optionsTo;
     public SpriteRenderer finger;
+
+    [Header("Cues")]
+    public SpriteRenderer cueMain;
+    public SpriteRenderer cuePrefab;
+    public Sprite[] cueMainSprites;
+    public Sprite[] cueSprites;
+    public Transform cueCenter;
+    public float cueDistance;
+    SpriteRenderer[] cues;
+    public UnityEngine.UI.Image fillingImage;
+    bool[] cuePlayed;
 
     public float fingerHeight = 2f;
 
@@ -65,7 +75,6 @@ public class Hand : MonoBehaviour
     {
         logic = l;
         ownId = id;
-        SetColor(l.handsColor[id]);
         currentIt = 0;
         
         finger.sprite = idleSprite;
@@ -105,16 +114,35 @@ public class Hand : MonoBehaviour
             armsLength = Mathf.Max(armsLength, MinArmLengthToReach(logic.GetKeyPosition(logic.keys[i].note)));
         }
 
+        fingerTransform.position = restPos;
+        workingBeats = 0;
+
+        cues = new SpriteRenderer[level.blockCount];
+        cuePlayed = new bool[level.blockCount];
+        Utilities.InitializeArray(ref cuePlayed, false);
+
+        float startAngle = 1.5f * Mathf.PI;
+        float deltaAngle = 2f * Mathf.PI / (float)level.blockCount;
+        for (int i = 0; i < cues.Length; ++i) {
+            cues[i] = Instantiate(cuePrefab.gameObject, cueCenter).GetComponent<SpriteRenderer>();
+            cues[i].sprite = cueSprites[0];
+
+            float angle = startAngle + deltaAngle * i;
+            cues[i].transform.localPosition = new Vector3(-Mathf.Cos(angle) * cueDistance, Mathf.Sin(angle) * cueDistance, 0);
+        }
+        ownRenderers.AddRange(cues);
+
+        SetColor(l.handsColor[id]);
+
         noteOffset = 0;
-        if (maxOffset - minOffset > 0) {
-            while (noteOffset == 0) {
+        if (maxOffset - minOffset > 0)
+        {
+            while (noteOffset == 0)
+            {
                 noteOffset = Random.Range(minOffset, maxOffset + 1);
             }
         }
         SetOffset(noteOffset);
-
-        fingerTransform.position = restPos;
-        workingBeats = 0;
     }
 
     float MinArmLengthToReach(Vector3 pos) {
@@ -138,6 +166,8 @@ public class Hand : MonoBehaviour
         toggleButton.SetToggleState(false);
         lastFingerPos = fingerTransform.position;
         animTime = lerpTime;
+
+        Utilities.InitializeArray(ref cuePlayed, false);
         workingBeats = 0;
     }
 
@@ -150,6 +180,12 @@ public class Hand : MonoBehaviour
     public void BeatStarted(int beat) {
         int beatIt = beat % logic.currentLevel.blockCount;
 
+        if (IsPlaying())
+        {
+            cuePlayed[beatIt] = true;
+            workingBeats++;
+        }
+
         //Debug.Log("Start " + ownId + ": " + beatIt + "=> ownHandplay.notes[" + currentIt + "].beatStart = " + ownHandplay.notes[currentIt].beatStart);
 
         if (ownHandplay.notes[currentIt].blockStart == beatIt) {
@@ -161,8 +197,6 @@ public class Hand : MonoBehaviour
         int beatIt = (beat + 1) % logic.currentLevel.blockCount;
 
         //Debug.Log("End " + ownId + ": " + beatIt + "=> ownHandplay.notes[" + currentIt + "].beatEnd = " + (ownHandplay.notes[currentIt].beatStart + ownHandplay.notes[currentIt].beatLength));
-
-        if (IsPlaying()) workingBeats++;
 
         if (((ownHandplay.notes[currentIt].blockStart + ownHandplay.notes[currentIt].blockLength) % logic.currentLevel.blockCount) == beatIt)
         {
@@ -200,10 +234,34 @@ public class Hand : MonoBehaviour
         }
         float lerpFactor = GetLerpFactor();
 
+        fillingImage.fillAmount = WorkingFactor();
+
+        float currentBeatFloat = logic.CurrentBeatFloat();
+        float startAngle = 1.5f * Mathf.PI;
+        float deltaAngle = 2f * Mathf.PI / (float)logic.currentLevel.blockCount;
+
+        float angle = startAngle + deltaAngle * currentBeatFloat;
+        cueMain.transform.localPosition = new Vector3(-Mathf.Cos(angle) * cueDistance, Mathf.Sin(angle) * cueDistance, 0);
+        cueMain.sprite = isPlaying ? cueMainSprites[1] : cueMainSprites[0];
+        cueMain.color = Color.Lerp(logic.handsColor[ownId], Color.white, isPlaying? 0.8f : 0.2f);
+
+        int currentBeat = logic.CurrentBeat() % cuePlayed.Length;
+        for (int i = 0; i < cues.Length; ++i) {
+            int whichSprite = cuePlayed[i] ? 1 : 0;
+            cues[i].color = logic.handsColor[ownId];
+            if (isPlaying && currentBeat == i)
+            {
+                whichSprite++;
+                cues[i].color = Color.Lerp(cues[i].color, Color.white, 0.5f);
+            }
+            //if (cuePlayed[i])
+            //{
+            //}
+            cues[i].sprite = cueSprites[whichSprite];
+        }
+
         if (isPlaying)
         {
-            float currentBeatFloat = logic.CurrentBeatFloat();
-
             int currentBlock = Mathf.FloorToInt(currentBeatFloat) % logic.currentLevel.blockCount;
             int nextBlock = currentBlock + 1;
             float f = currentBeatFloat - Mathf.Floor(currentBeatFloat);
@@ -277,8 +335,6 @@ public class Hand : MonoBehaviour
         line0.SetPosition(1, knob.position);
         line1.SetPosition(0, knob.position);
         line1.SetPosition(1, fingerTransform.position + (knob.position - fingerTransform.position).normalized * 0.18f);
-
-        fillImage.fillAmount = WorkingFactor();
     }
 
     void SetColor(Color c) {
@@ -289,8 +345,6 @@ public class Hand : MonoBehaviour
         arrowButtonLeft.Init(c);
         arrowButtonRight.Init(c);
         toggleButton.Init(c);
-
-        fillImage.color = Color.Lerp(Color.white, c, 0.3f);
     }
 
 
@@ -321,6 +375,7 @@ public class Hand : MonoBehaviour
         noteOffset = Mathf.Clamp(off, minOffset, maxOffset);
         UpdateOffsetUI();
         workingBeats = 0;
+        Utilities.InitializeArray(ref cuePlayed, false);
         animTime = lerpTime / 2f;
         lastFingerPos = fingerTransform.position;
         finger.sprite = idleSprite;

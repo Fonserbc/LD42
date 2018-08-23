@@ -23,6 +23,11 @@ TextureImporter:
     21300036: around
     21300038: icon
     21300040: tilemap2_4
+    21300042: cue_on
+    21300044: cue_used
+    21300046: cue_off
+    21300048: cue_big
+    21300050: cue_main_off
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -409,6 +414,76 @@ TextureImporter:
         height: 38
       alignment: 7
       pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cue_on
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 290
+        width: 2
+        height: 2
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cue_used
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 285
+        width: 2
+        height: 2
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cue_off
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 280
+        width: 2
+        height: 2
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cue_big
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 289
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cue_main_off
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 284
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

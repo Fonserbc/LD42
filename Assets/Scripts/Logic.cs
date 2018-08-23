@@ -251,6 +251,10 @@ public class Logic : MonoBehaviour {
         return (float)beatIt + time / beatLength;
     }
 
+    public int CurrentBeat() {
+        return beatIt;
+    }
+
     void SetCombination(int it) {
 
         combIt = it;
